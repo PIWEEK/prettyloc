@@ -178,6 +178,10 @@ class RoutesSpider(scrapy.Spider):
     def parse(self, response):
         self.log('Starting!')
 
+        url = response.url
+        index = url.find("id=")
+        route_id = int(url[index + 3:])
+
         title = response.css("h1::text").extract_first()[1:-1]
         trail_data = response.xpath("//div[@id='trail-data']")
 
@@ -257,8 +261,6 @@ class RoutesSpider(scrapy.Spider):
                 recorded_date = data.xpath("span/text()").extract_first().strip()
             elif 'Valoración' in data.xpath("text()").extract_first():
                 stars = int(data.xpath("following-sibling::span//@class").extract_first()[-1])
-
-        route_id = 1
 
         route = Route(
             external_id=route_id,
