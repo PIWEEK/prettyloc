@@ -4,10 +4,10 @@ services:
         image: api:1.0
         container_name: api
         ports:
-            - "5000:5000"
+            - "8000:8000"
         networks:
             - prettyloc-network
-        #command: bash -c "/myvenv/bin/python3 manage.py migrate && /myvenv/bin/python3 manage.py runserver 0.0.0.0:8000"
+        command: bash -c "/myvenv/bin/python3 manage.py migrate && /myvenv/bin/python3 manage.py runserver 0.0.0.0:8000"
     postgres:
         image: postgres:1.0
         container_name: postgres
@@ -16,6 +16,8 @@ services:
             - "PRETTYLOC_API_USER=postgres"
             - "PRETTYLOC_API_HOST=postgres"
             - "PRETTYLOC_API_PORT=5432"
+        ports:
+            - "5492:5432"
         networks:
             - prettyloc-network
 

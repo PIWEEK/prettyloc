@@ -1,1 +1,9 @@
 FROM postgres:9.4.5
+MAINTAINER Kaleidos hello@kaleidos.net
+WORKDIR /
+
+# Install dependencies
+RUN apt-get update
+RUN apt-get install -y -qq postgis libgeos-3.4.2 libproj0 libproj-dev libgdal1h
+
+
