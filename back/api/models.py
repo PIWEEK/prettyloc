@@ -1,3 +1,4 @@
+from django.contrib.gis.geos import Point
 from django.db import models
 
 TYPES = (
@@ -13,15 +14,20 @@ DIFFICULTIES = (
 )
 
 
-
 class Route(models.Model):
-    name = models.TextField()
-    type = models.CharField(max_length=100, choices=TYPES)
-    is_circular = models.BooleanField()
-    difficulty = models.CharField(max_length=100, choices=DIFFICULTIES)
-    distance = models.FloatField()
-    elevation_up = models.FloatField()
-    elevation_down = models.FloatField()
-    max_altitude = models.FloatField()
-    min_altitude = models.FloatField()
-    duration = models.CharField(max_length=100, null=True, blank=True)
+    title = models.TextField()
+    external_id = models.IntegerField()
+    route_type = models.CharField(max_length=100, choices=TYPES)
+    route_loop = models.BooleanField()
+    technical_difficulty = models.CharField(max_length=100, choices=DIFFICULTIES)
+    route_length = models.FloatField()
+    route_uphill = models.FloatField()
+    route_downhill = models.FloatField()
+    route_height = models.FloatField()
+    route_low = models.FloatField()
+    time = models.CharField(max_length=100, null=True, blank=True)
+    coordinates = models.CharField(max_length=100, null=True, blank=True)
+    upload_date = models.CharField(max_length=100, null=True, blank=True)
+    recorded_date = models.CharField(max_length=100, null=True, blank=True)
+    stars = models.IntegerField(null=True)
+    start_point = Point()
