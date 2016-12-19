@@ -37,6 +37,7 @@ class Migration(migrations.Migration):
                 ('recorded_date', models.CharField(blank=True, max_length=100, null=True)),
                 ('stars', models.CharField(blank=True, max_length=100, null=True)),
                 ('start_point', PointField()),
+                ('gpx', models.TextField()),
             ],
         ),
     ]

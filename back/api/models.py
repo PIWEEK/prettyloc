@@ -31,3 +31,4 @@ class Route(models.Model):
     recorded_date = models.CharField(max_length=100, null=True, blank=True)
     stars = models.IntegerField(null=True)
     start_point = PointField()
+    gpx = models.TextField()

@@ -175,6 +175,22 @@ class RoutesSpider(scrapy.Spider):
         else:
             logging.error("Wikiloc route ID is mandatory")
 
+    def generate_gpx(self, title, gpx_lat, gpx_lon):
+        gpx = '<?xml version="1.0" encoding="UTF-8" standalone="no" ?>'
+        gpx += '<gpx xmlns="http://www.topografix.com/GPX/1/1" xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3" xmlns:gpxtpx="http://www.garmin.com/xmlschemas/TrackPointExtension/v1" creator="Oregon 400t" version="1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd http://www.garmin.com/xmlschemas/GpxExtensions/v3 http://www.garmin.com/xmlschemas/GpxExtensionsv3.xsd http://www.garmin.com/xmlschemas/TrackPointExtension/v1 http://www.garmin.com/xmlschemas/TrackPointExtensionv1.xsd">'
+        gpx += '<trk>'
+        gpx += '<name>{}</name>'.format(title)
+        gpx += '<trkseg>'
+
+        for i in range(len(gpx_lat)):
+            gpx += '<trkpt lat="{}" lon="{}">'.format(gpx_lat[i], gpx_lon[i])
+            gpx += '</trkpt>'
+        gpx += '</trkseg>'
+        gpx += '</trk>'
+        gpx += '</gpx>'
+
+        return gpx
+
     def parse(self, response):
         self.log('Starting!')
 
@@ -229,6 +245,20 @@ class RoutesSpider(scrapy.Spider):
         index = txt.find(')')
         lon = float(txt[:index])
 
+        # Extract GPX
+        txt = response.xpath('//body').extract_first()
+        index = txt.find("var trinfo")
+        txt = txt[index + 13:]
+        index = txt.find("[")
+        txt = txt[index:]
+        index = txt.find("]")
+        gpx_lat = eval(txt[:index + 1])
+        txt = txt[index:]
+        index = txt.find("[")
+        txt = txt[index:]
+        index = txt.find("]")
+        gpx_lon = eval(txt[:index + 1])
+
         # Extra data (optional)
         technical_difficulty = None
         time = None
@@ -262,7 +292,7 @@ class RoutesSpider(scrapy.Spider):
             elif 'Valoración' in data.xpath("text()").extract_first():
                 stars = int(data.xpath("following-sibling::span//@class").extract_first()[-1])
 
-        import pdb; pdb.set_trace()
+        #
         route = Route(
             external_id=route_id,
             title=title.strip(),
@@ -280,6 +310,8 @@ class RoutesSpider(scrapy.Spider):
             recorded_date=recorded_date,
             stars=stars,
             start_point=Point(lat, lon),
+            gpx=self.generate_gpx(title, gpx_lat, gpx_lon)
+
         )
         route.save()
 
