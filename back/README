@@ -1,0 +1,5 @@
+Back - API
+==========
+
+System requirements
+* postgres, postgis, geos, proj, gdal

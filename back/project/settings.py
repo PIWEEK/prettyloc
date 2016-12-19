@@ -77,7 +77,7 @@ WSGI_APPLICATION = 'project.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
         'NAME': 'prettyloc',
         'USER': os.environ.get('PRETTYLOC_API_USER', ''),
         'HOST': os.environ.get('PRETTYLOC_API_HOST', 'localhost'),
