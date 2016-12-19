@@ -10,7 +10,7 @@ function api(){
     echo "############"
     echo "Updating api"
     echo "############"
-    docker build --no-cache=true -t api:1.0 -f docker/api .
+    docker build -t api:1.0 -f docker/api .
     restart_develop_module api
     echo "**** Finished updating api"
 }
@@ -19,7 +19,7 @@ function postgres(){
     echo "#################"
     echo "Updating postgres"
     echo "#################"
-    docker build --no-cache=true -t postgres:1.0 -f docker/postgres .
+    docker build -t postgres:1.0 -f docker/postgres .
     restart_develop_module postgres
     echo "**** Finished updating postgres"
 }

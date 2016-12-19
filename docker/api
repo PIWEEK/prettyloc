@@ -1,15 +1,15 @@
-FROM ubuntu:14.04
+FROM ubuntu:16.04
 MAINTAINER Kaleidos hello@kaleidos.net
 WORKDIR /
 
 # Install dependencies
 RUN apt-get update
-RUN apt-get install -y -qq curl python3-pip git libpq-dev postgresql-client
+RUN apt-get install -y -qq curl python3-pip git libpq-dev postgresql-client libxslt1-dev libffi-dev binutils libproj-dev gdal-bin
 RUN pip3 install virtualenv
 
 # Configure locales
 RUN locale-gen "es_ES.UTF-8"
-RUN dpkg-reconfigure locales
+RUN dpkg-reconfigure locales -f noninteractive
 ENV LC_ALL "es_ES.UTF-8"
 
 # Install requirements
