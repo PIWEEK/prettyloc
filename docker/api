@@ -1,0 +1,24 @@
+FROM ubuntu:17.04
+MAINTAINER Kaleidos hello@kaleidos.net
+WORKDIR /
+
+# Install dependencies
+RUN apt-get update
+RUN apt-get install -y -qq curl python3-pip git libpq-dev postgresql-client
+RUN pip3 install virtualenv
+
+# Configure locales
+RUN locale-gen "en_US.UTF-8"
+RUN dpkg-reconfigure locales
+ENV LC_ALL "en_US.UTF-8"
+
+# Install requirements
+RUN virtualenv -p python3 myvenv
+COPY back/requirements.txt /back/
+RUN /myvenv/bin/easy_install --upgrade requests
+RUN /myvenv/bin/pip install -r /back/requirements.txt
+
+# Setup the application
+COPY back/ /back
+
+WORKDIR /back
