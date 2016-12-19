@@ -262,6 +262,7 @@ class RoutesSpider(scrapy.Spider):
             elif 'Valoración' in data.xpath("text()").extract_first():
                 stars = int(data.xpath("following-sibling::span//@class").extract_first()[-1])
 
+        import pdb; pdb.set_trace()
         route = Route(
             external_id=route_id,
             title=title.strip(),

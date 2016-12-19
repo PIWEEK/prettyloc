@@ -1,4 +1,4 @@
-from django.contrib.gis.geos import Point
+from django.contrib.gis.db.models import PointField
 from django.db import models
 
 TYPES = (
@@ -30,4 +30,4 @@ class Route(models.Model):
     upload_date = models.CharField(max_length=100, null=True, blank=True)
     recorded_date = models.CharField(max_length=100, null=True, blank=True)
     stars = models.IntegerField(null=True)
-    start_point = Point()
+    start_point = PointField()

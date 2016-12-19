@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 
 from django.contrib.postgres.operations import CreateExtension
 from django.db import migrations, models
+from django.contrib.gis.db.models import PointField
 
 
 class Migration(migrations.Migration):
@@ -35,7 +36,7 @@ class Migration(migrations.Migration):
                 ('upload_date', models.CharField(blank=True, max_length=100, null=True)),
                 ('recorded_date', models.CharField(blank=True, max_length=100, null=True)),
                 ('stars', models.CharField(blank=True, max_length=100, null=True)),
-                ('start_point', models.CharField(blank=True, max_length=100, null=True)),
+                ('start_point', PointField()),
             ],
         ),
     ]
