@@ -178,7 +178,7 @@ class RoutesSpider(scrapy.Spider):
     def generate_line(self, gpx_lat, gpx_lon):
         points = []
         for i in range(len(gpx_lat)):
-            points.append(Point(gpx_lat[i], gpx_lon[i]))
+            points.append(Point(gpx_lon[i], gpx_lat[i]))
         return LineString(points)
 
     def generate_gpx(self, title, gpx_lat, gpx_lon):
