@@ -5,14 +5,47 @@
     <title>Prettyloc</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css" />
+    <link rel="stylesheet" href="css/leaflet-sidebar.css" />
     <link rel="stylesheet" href="css/styles.css" />
   </head>
 
   <body>
-    <div id="map"></div>
+      <div id="sidebar" class="sidebar sidebar-left leaflet-touch collapsed">
+        <div class="sidebar-tabs">
+            <ul role="tablist">
+                <li><a href="#search" role="tab"><i class="fa fa-bars"></i></a></li>
+                <li><a href="#route-detail" role="tab"><i class="fa fa-map-marker"></i></a></li>
+            </ul>
+            <ul role="tablist">
+                <li id="settings"><a href="#settings" role="tab"><i class="fa fa-gear"></i></a></li>
+            </ul>
+        </div>
+
+        <div class="sidebar-content">
+            <div class="sidebar-pane" id="search">
+                <h1 class="sidebar-header">Search<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
+                <p>Aquí metemos las movidas de búsqueda</p>
+                <p>Y los resultados</p>
+            </div>
+
+            <div class="sidebar-pane" id="route-detail">
+                <h1 class="sidebar-header">Route Detail<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
+                <p>Aquí metemos el detalle de la ruta</p>
+            </div>
+
+            <div class="sidebar-pane" id="settings">
+                <h1 class="sidebar-header">Settings<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
+                <p>Esto ya es para fardar</p>
+            </div>
+        </div>
+    </div>
+    <div id="map" class="sidebar-map"></div>
+
     <script src="./js/jquery-3.1.1.min.js"></script>
     <script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
+    <script src="./js/leaflet-sidebar.js"></script>
     <script src="./js/data.js"></script>
     <script src="./js/app.js"></script>
   </body>
