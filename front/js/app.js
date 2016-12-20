@@ -2,12 +2,23 @@ flag = true;
 newLine2 = {};
 
 $(document).ready(function() {
-    var map = L.map('map').setView([39.75383843460583, -105.00341892242432], 15);
+    var map = L.map('map').setView([40.73784, -4.06569], 15);
     title(map);
 
     var sidebar = L.control.sidebar('sidebar').addTo(map);
 
-    newPath([39.75383843460583, -105.00341892242432], routes, map);
+    $.getJSON( "js/data.json", function( data ) {
+        data.results.forEach(function(path) {
+            newPath(
+                [path.start_point.coordinates[0], 
+                path.start_point.coordinates[1]], 
+                path.line, 
+                map
+            );
+            addDetail(path);
+        });
+    });
+
 
 });
 
@@ -65,6 +76,12 @@ function newPath(origin, path, map) {
         .addTo(map);
 
     $('#map').on('click', '.popup_link',function() {
-        marker._popup.setContent(toggleLine(path, map));
+        if (marker._popup) {
+            marker._popup.setContent(toggleLine(path, map));
+        }
     });
+}
+
+function addDetail(data) {
+    $('#sidebar').find('#route-detail').append('<p>'+data.title+'</p>');
 }
