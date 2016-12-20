@@ -237,8 +237,8 @@ class RoutesSpider(scrapy.Spider):
             "//span[@class='trail-data-icon glyphicon icon-height']/following-sibling::span/text()").extract_first()
         route_low = float(route_low_txt[:-2].replace('', ''))
 
-        route_type_es = response.xpath("//*[contains(@class, 'crumbs')]/strong/text()").extract_first()
-
+        # https://es.wikiloc.com/rutas/mountain-bike"
+        route_type_es = response.xpath("//a[@id='activity-badge']/@href").extract_first()[29:]
         route_type = activities_en[activities_es.index(route_type_es)]
 
         # Extract latitude and longitude
