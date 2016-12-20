@@ -1,4 +1,4 @@
-from django.contrib.gis.db.models import PointField
+from django.contrib.gis.db.models import PointField, LineStringField, GeoManager
 from django.db import models
 
 TYPES = (
@@ -31,4 +31,5 @@ class Route(models.Model):
     recorded_date = models.CharField(max_length=100, null=True, blank=True)
     stars = models.IntegerField(null=True)
     start_point = PointField()
-    gpx = models.TextField()
+    line = LineStringField()
+    objects = GeoManager()

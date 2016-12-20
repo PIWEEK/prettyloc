@@ -2,7 +2,7 @@
 import logging
 
 import scrapy
-from django.contrib.gis.geos import Point
+from django.contrib.gis.geos import Point, LineString
 
 from api.models import Route
 
@@ -175,6 +175,12 @@ class RoutesSpider(scrapy.Spider):
         else:
             logging.error("Wikiloc route ID is mandatory")
 
+    def generate_line(self, gpx_lat, gpx_lon):
+        points = []
+        for i in range(len(gpx_lat)):
+            points.append(Point(gpx_lat[i], gpx_lon[i]))
+        return LineString(points)
+
     def generate_gpx(self, title, gpx_lat, gpx_lon):
         gpx = '<?xml version="1.0" encoding="UTF-8" standalone="no" ?>'
         gpx += '<gpx xmlns="http://www.topografix.com/GPX/1/1" xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3" xmlns:gpxtpx="http://www.garmin.com/xmlschemas/TrackPointExtension/v1" creator="Oregon 400t" version="1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd http://www.garmin.com/xmlschemas/GpxExtensions/v3 http://www.garmin.com/xmlschemas/GpxExtensionsv3.xsd http://www.garmin.com/xmlschemas/TrackPointExtension/v1 http://www.garmin.com/xmlschemas/TrackPointExtensionv1.xsd">'
@@ -245,7 +251,7 @@ class RoutesSpider(scrapy.Spider):
         index = txt.find(')')
         lon = float(txt[:index])
 
-        # Extract GPX
+        # Data for geojson
         txt = response.xpath('//body').extract_first()
         index = txt.find("var trinfo")
         txt = txt[index + 13:]
@@ -310,7 +316,7 @@ class RoutesSpider(scrapy.Spider):
             recorded_date=recorded_date,
             stars=stars,
             start_point=Point(lat, lon),
-            gpx=self.generate_gpx(title, gpx_lat, gpx_lon)
+            line=self.generate_line(gpx_lat, gpx_lon)
 
         )
         route.save()
