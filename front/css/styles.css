@@ -7,3 +7,11 @@ body {
   height: 100vh;
   width: 100vW;
 }
+
+.leaflet-popup {
+  cursor: pointer;
+}
+
+.popup_link:hover {
+  text-decoration: underline;
+}

@@ -1,206 +1,59 @@
 # -*- coding: utf-8 -*-
 import logging
+import time
 
 import scrapy
-from django.contrib.gis.geos import Point, LineString
+from django.contrib.gis.geos import Point
 
 from api.models import Route
-
-activities_en = [
-    'mountain-biking',
-    'hiking',
-    'cycling',
-    'running',
-    'trail-running',
-    'mountaineering',
-    'bicycle-touring',
-    'walking',
-    'motorcycling',
-    'back-country-skiing',
-    'trail-bike',
-    'atv',
-    'kayaking-canoeing',
-    'sailing',
-    'snowshoeing',
-    'cross-country-skiing',
-    'alpine-skiing',
-    'flying',
-    'horseback-riding',
-    'dog-sledging',
-    'rock-climbing',
-    'inline-skating',
-    'skating',
-    'train',
-    'canyoneering',
-    'diving',
-    'caving',
-    'hang-gliding',
-    'ballooning',
-    'snowboarding',
-    'ice-climbing',
-    'snowmobiling',
-    'accessible',
-    'offroading',
-    'rowing',
-    'car',
-    'kiteboarding',
-    'kite-skiing',
-    'sledge',
-    'kickbike',
-    'paragliding',
-    'for-blind',
-    'nordic-walking',
-    'motorcycle-trials',
-    'enduro',
-    'via-ferrata',
-    'swimming',
-    'orienteering',
-    'multisport',
-    'stand-up-paddle-sup',
-    'barefoot',
-    'canicross',
-    'roller-skiing',
-    'longboarding',
-    'mountain-unicycling',
-    'golf',
-    'recreational-vehicle',
-    'airboat',
-    'segway',
-    'camel',
-    'freeride',
-    'unmanned-aerial-vehicle-uav',
-    'motorboat',
-    'birdwatching-birding',
-    'trailer-bike',
-    'water-scooter-pwc',
-    'handbike',
-    'rafting',
-    'downhill-mountain-biking-dh',
-    'electric-vehicle',
-    'base-jumping',
-    'joelette',
-    'with-baby-carriage',
-    'splitboard',
-    'cyclocross',
-]
-
-activities_es = [
-    'mountain-bike',
-    'senderismo',
-    'ciclismo',
-    'carrera',
-    'carrera-por-montana',
-    'alpinismo',
-    'cicloturismo',
-    'a-pie',
-    'motociclismo',
-    'esqui-de-montana',
-    'moto-trail',
-    'quad',
-    'kayac',
-    'vela',
-    'raquetas',
-    'esqui-de-fondo',
-    'esqui',
-    'avion',
-    'a-caballo',
-    'trineo-de-perros',
-    'escalada',
-    'patines-en-linea',
-    'patines',
-    'tren',
-    'descenso-de-barrancos',
-    'submarinismo',
-    'espeleologia',
-    'ala-delta',
-    'globo',
-    'snowboard',
-    'escalada-invernal',
-    'moto-de-nieve',
-    'sendero-accesible',
-    'todo-terreno',
-    'remo',
-    'coche',
-    'kiteboarding',
-    'kite-skiing',
-    'trineo',
-    'kickbike',
-    'parapente',
-    'para-invidentes',
-    'marcha-nordica',
-    'moto-trial',
-    'moto-enduro',
-    'via-ferrata',
-    'natacion',
-    'orientacion',
-    'prueba-combinada',
-    'stand-up-paddle-sup',
-    'correr-descalzo',
-    'canicross',
-    'skiroll',
-    'longboarding',
-    'monociclismo-de-montana',
-    'golf',
-    'autocaravana',
-    'hidrodeslizador',
-    'segway',
-    'a-camello',
-    'freeride',
-    'vehiculo-aereo-no-tripulado-dron',
-    'lancha-motora',
-    'observacion-de-aves',
-    'bicicleta-con-remolque',
-    'moto-de-agua',
-    'handbike',
-    'descenso-de-rios-rafting',
-    'descenso-mtb',
-    'vehiculo-electrico',
-    'salto-base',
-    'joelette',
-    'con-cochecito',
-    'splitboard',
-    'ciclocross',
-]
+from spider.scrapwikiloc import generate_line, activities_es, activities_en
 
 
 class RoutesSpider(scrapy.Spider):
     name = "routes"
+    old_urls = []
+
+    # custom_settings = {
+    #     'DOWNLOADER_MIDDLEWARES': {
+    #         'spider.middlewares.RandomUserAgentMiddleware': 400,
+    #         'spider.middlewares.ProxyMiddleware': 410,
+    #         'scrapy.contrib.downloadermiddleware.useragent.UserAgentMiddleware': None,
+    #         # Disable compression middleware, so the actual HTML pages are cached
+    #     }
+    # }
 
     def start_requests(self):
-        url = 'https://es.wikiloc.com/wikiloc/view.do?id='
-        route_id = getattr(self, 'route_id', None)
-        if route_id is not None:
-            url = url + str(route_id)
+        url = getattr(self, 'url', None)
+        if url is not None:
             yield scrapy.Request(url, self.parse)
         else:
-            logging.error("Wikiloc route ID is mandatory")
-
-    def generate_line(self, gpx_lat, gpx_lon):
-        points = []
-        for i in range(len(gpx_lat)):
-            points.append(Point(gpx_lon[i], gpx_lat[i]))
-        return LineString(points)
-
-    def generate_gpx(self, title, gpx_lat, gpx_lon):
-        gpx = '<?xml version="1.0" encoding="UTF-8" standalone="no" ?>'
-        gpx += '<gpx xmlns="http://www.topografix.com/GPX/1/1" xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3" xmlns:gpxtpx="http://www.garmin.com/xmlschemas/TrackPointExtension/v1" creator="Oregon 400t" version="1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd http://www.garmin.com/xmlschemas/GpxExtensions/v3 http://www.garmin.com/xmlschemas/GpxExtensionsv3.xsd http://www.garmin.com/xmlschemas/TrackPointExtension/v1 http://www.garmin.com/xmlschemas/TrackPointExtensionv1.xsd">'
-        gpx += '<trk>'
-        gpx += '<name>{}</name>'.format(title)
-        gpx += '<trkseg>'
-
-        for i in range(len(gpx_lat)):
-            gpx += '<trkpt lat="{}" lon="{}">'.format(gpx_lat[i], gpx_lon[i])
-            gpx += '</trkpt>'
-        gpx += '</trkseg>'
-        gpx += '</trk>'
-        gpx += '</gpx>'
-
-        return gpx
+            logging.error("Wikiloc search route url is mandatory")
 
     def parse(self, response):
-        self.log('Starting!')
+        self.old_urls.append(response.url)
+        urls = response.xpath("//a/@href").extract()
+        route_urls = [url for url in urls if 'https://es.wikiloc.com/wikiloc/view.do?id=' in url]
 
+        for route_urls in route_urls:
+            if route_urls not in self.old_urls:
+                index = route_urls.find("id=")
+                route_id = int(route_urls[index + 3:])
+                route = Route.objects.filter(external_id=route_id).first()
+                if route is None:
+                    time.sleep(1)
+                    yield scrapy.Request(response.urljoin(route_urls),
+                                         callback=self.parse_route)
+
+        next_route = [url for url in urls if 'https://es.wikiloc.com/wikiloc/find.do' in url][-1]
+
+        if next_route not in self.old_urls:
+            time.sleep(5)
+            yield scrapy.Request(next_route, self.parse)
+
+    def parse_route(self, response):
         url = response.url
+        self.old_urls.append(url)
+
         index = url.find("id=")
         route_id = int(url[index + 3:])
 
@@ -316,7 +169,7 @@ class RoutesSpider(scrapy.Spider):
             recorded_date=recorded_date,
             stars=stars,
             start_point=Point(lat, lon),
-            line=self.generate_line(gpx_lat, gpx_lon)
+            line=generate_line(gpx_lat, gpx_lon)
 
         )
         route.save()

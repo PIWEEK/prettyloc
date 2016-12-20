@@ -1,3 +1,6 @@
+flag = true;
+newLine2 = {};
+
 $(document).ready(function() {
 
     var denver = [39.75383843460583, -105.00341892242432];
@@ -5,17 +8,26 @@ $(document).ready(function() {
 	title(map);
     var sidebar = L.control.sidebar('sidebar').addTo(map);
 
-    var line1;
+    var newLine;
 
-    L.marker(denver)
+    var marker = L.marker(denver)
         .on('mouseover', function() {
-            line1 = line(routes, map);
+            if (flag) {
+                newLine = line(routes, map);
+            }
         })
-        .on('mouseout', function(){
-            map.removeLayer(line1);
+        .on('mouseout', function(e){
+            if (flag) {
+                map.removeLayer(newLine);
+            }
         })
-        .bindPopup('<a onclick="hideLine('+ this +','+ map +')">ocultar ruta</a>').openPopup()
+        .bindPopup(toggleLine(routes, map))
+        .openPopup()
         .addTo(map);
+
+    $('#map').on('click', '.popup_link',function() {
+        marker._popup.setContent(toggleLine(routes, map));
+    });
 
 });
 
@@ -34,6 +46,20 @@ function line(data, map) {
 	return L.geoJSON(data).addTo(map);
 }
 
-function hideLine(line, map) {
-    map.removeLayer(line);
+function toggleLine(routes, map) {
+    var popup = '';
+
+    if (flag) {
+        popup = $('<a class="popup_link">show route</a>').click(function(e) {
+            newLine2 = line(routes, map);
+            flag = false;
+        })[0];
+    } else {
+        popup = $('<a class="popup_link">hide route</a>').click(function(e) {
+            map.removeLayer(newLine2);
+            flag = true;
+        })[0];       
+    }
+
+    return popup;
 }
