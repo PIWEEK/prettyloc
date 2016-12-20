@@ -3,6 +3,13 @@ from rest_framework import serializers
 
 
 class RouteSerializer(serializers.HyperlinkedModelSerializer):
+
+    def get_start_point(self, obj):
+        return obj.start_point.json
+
+    def get_line(self, obj):
+        return obj.line.json
+
     class Meta:
         model = Route
-        fields = ('title', 'external_id', 'route_type', 'route_length')
+        fields = '__all__'

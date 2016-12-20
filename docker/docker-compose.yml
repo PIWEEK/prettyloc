@@ -11,7 +11,7 @@ services:
             - "PRETTYLOC_API_PORT=5432"
         networks:
             - prettyloc-network
-        command: bash -c "/myvenv/bin/python3 manage.py migrate && /myvenv/bin/python manage.py scraproute 6374193 && /myvenv/bin/python3 manage.py runserver 0.0.0.0:8000 "
+        command: bash -c "/myvenv/bin/python3 manage.py migrate && psql -d prettyloc -f /back/prettyloc.sql -h postgres -U postgres && /myvenv/bin/python3 manage.py runserver 0.0.0.0:8000 "
     postgres:
         image: postgres:1.0
         container_name: postgres

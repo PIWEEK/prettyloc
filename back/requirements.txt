@@ -2,3 +2,5 @@ Django==1.10
 djangorestframework
 psycopg2
 scrapy
+djangorestframework-gis
+django-filter

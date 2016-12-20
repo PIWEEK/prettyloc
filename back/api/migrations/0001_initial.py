@@ -35,7 +35,7 @@ class Migration(migrations.Migration):
                 ('coordinates', models.CharField(blank=True, max_length=100, null=True)),
                 ('upload_date', models.CharField(blank=True, max_length=100, null=True)),
                 ('recorded_date', models.CharField(blank=True, max_length=100, null=True)),
-                ('stars', models.CharField(blank=True, max_length=100, null=True)),
+                ('stars', models.IntegerField(blank=True, null=True)),
                 ('start_point', PointField()),
                 ('line', LineStringField()),
             ],
