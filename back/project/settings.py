@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'api',
     'spider',
     'rest_framework',
+    'rest_framework.authtoken',
     'rest_framework_gis',
 ]
 
@@ -127,9 +128,12 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 
-REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAdminUser',
-    ],
-    'PAGE_SIZE': 10
-}
+#REST_FRAMEWORK = {
+#    'DEFAULT_PERMISSION_CLASSES': [
+#        'rest_framework.permissions.AllowAny',
+#    ],
+#    'PAGE_SIZE': 10,
+#    'DEFAULT_AUTHENTICATION_CLASSES': (
+#        'rest_framework.authentication.TokenAuthentication',
+#    ),
+#}
