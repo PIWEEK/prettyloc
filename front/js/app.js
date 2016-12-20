@@ -2,32 +2,12 @@ flag = true;
 newLine2 = {};
 
 $(document).ready(function() {
+    var map = L.map('map').setView([39.75383843460583, -105.00341892242432], 15);
+    title(map);
 
-    var denver = [39.75383843460583, -105.00341892242432];
-	var map = L.map('map').setView(denver, 15);
-	title(map);
     var sidebar = L.control.sidebar('sidebar').addTo(map);
 
-    var newLine;
-
-    var marker = L.marker(denver)
-        .on('mouseover', function() {
-            if (flag) {
-                newLine = line(routes, map);
-            }
-        })
-        .on('mouseout', function(e){
-            if (flag) {
-                map.removeLayer(newLine);
-            }
-        })
-        .bindPopup(toggleLine(routes, map))
-        .openPopup()
-        .addTo(map);
-
-    $('#map').on('click', '.popup_link',function() {
-        marker._popup.setContent(toggleLine(routes, map));
-    });
+    newPath([39.75383843460583, -105.00341892242432], routes, map);
 
 });
 
@@ -62,4 +42,29 @@ function toggleLine(routes, map) {
     }
 
     return popup;
+}
+
+function newPath(origin, path, map) {
+    var newLine;
+
+    var marker = L.marker(origin)
+        .on('mouseover', function() {
+            if (flag) {
+                newLine = line(path, map);
+            }
+            marker
+                .closePopup()
+                .bindPopup(toggleLine(path, map))
+                .openPopup();
+        })
+        .on('mouseout', function(e){
+            if (flag) {
+                map.removeLayer(newLine);
+            }
+        })
+        .addTo(map);
+
+    $('#map').on('click', '.popup_link',function() {
+        marker._popup.setContent(toggleLine(path, map));
+    });
 }
