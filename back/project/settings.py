@@ -132,12 +132,8 @@ STATIC_URL = '/static/'
 CORS_ORIGIN_ALLOW_ALL = True
 
 REST_FRAMEWORK = {
-    'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',)
-    #'DEFAULT_PERMISSION_CLASSES': [
-    #    'rest_framework.permissions.AllowAny',
-    #],
-    #'PAGE_SIZE': 10,
-    #'DEFAULT_AUTHENTICATION_CLASSES': (
-    #    'rest_framework.authentication.TokenAuthentication',
-    #),
+    'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',),
+    #'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'DEFAULT_PAGINATION_CLASS': 'api.pagination.LinkHeaderPagination',
+    'PAGE_SIZE': 2,
 }
