@@ -1,5 +1,17 @@
 flag = true;
 newLine2 = {};
+difficult = L.AwesomeMarkers.icon({
+        icon: 'map-marker',
+        markerColor: 'red'
+      });
+moderate = L.AwesomeMarkers.icon({
+        icon: 'map-marker',
+        markerColor: 'orange'
+      });
+easy = L.AwesomeMarkers.icon({
+        icon: 'map-marker',
+        markerColor: 'green'
+      });
 
 $(document).ready(function() {
 
@@ -21,6 +33,8 @@ $(document).ready(function() {
         layers: [topomap]
     });
 
+
+
     var baseMaps = {
             "<span class='outdoors'>Outdoors</span>": outdoors,
             "<span class='topomap'>Topomap</span>": topomap
@@ -35,7 +49,8 @@ $(document).ready(function() {
                 [path.start_point.coordinates[0],
                 path.start_point.coordinates[1]],
                 path.line,
-                map
+                map,
+                path.technical_difficulty
             );
             addDetail(path);
         });
@@ -74,10 +89,28 @@ function toggleLine(routes, map) {
     return popup;
 }
 
-function newPath(origin, path, map) {
+function newPath(origin, path, map, difficulty) {
     var newLine;
+    var difficulty_icon = easy;
+    switch(difficulty) {
+        case '1':
+            difficulty_icon = easy;
+            break;
+        case '2':
+            difficulty_icon = easy;
+            break;
+        case '3':
+            difficulty_icon = moderate;
+            break;
+        case '4':
+            difficulty_icon = moderate;
+            break;
+        case '5':
+            difficulty_icon = difficult;
+            break;
+    }
 
-    var marker = L.marker(origin)
+    var marker = L.marker(origin, {icon: difficulty_icon})
         .on('mouseover', function() {
             if (flag) {
                 newLine = line(path, map);
