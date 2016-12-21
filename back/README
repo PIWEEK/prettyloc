@@ -3,3 +3,24 @@ Back - API
 
 System requirements
 * postgres, postgis, geos, proj, gdal
+
+API calls
+---------
+
+/routes
+~~~~~~~
+
+Params:
+
+* &route_type= (hiking, cycling, walking, mountain-biking)
+* &route_loop= (True, False)
+* &technical_difficulty= (1,2,3,4,5)
+* &min_dist=
+* &max_dist=
+* &in_bbox=minLat,minLon,maxLat,maxLon
+
+TODO
+
+* route_type=multiple selection
+* distancetopointfilter
+* technical_difficulty=multiple selection

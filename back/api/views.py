@@ -17,4 +17,3 @@ class RouteView(viewsets.ReadOnlyModelViewSet):
     distance_filter_field = 'start_point'
     bbox_filter_field = 'start_point'
     bbox_filter_include_overlapping = True
-    #filter_fields = ('route_type', 'route_loop')

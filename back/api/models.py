@@ -9,11 +9,11 @@ TYPES = (
 )
 
 DIFFICULTIES = (
-    ('easy', 'easy'),
-    ('moderate', 'moderate'),
-    ('difficult', 'difficult'),
-    ('very difficult', 'very difficult'),
-    ('expert', 'expert'),
+    (1, 'easy'),
+    (2, 'moderate'),
+    (3, 'difficult'),
+    (4, 'very difficult'),
+    (5, 'expert'),
 )
 
 
