@@ -109,6 +109,23 @@ h2 {
   border: 2px solid black;
 }
 
+
+.distance-and-loop-container{
+  display: flex;
+  justify-content: space-between;
+}
+
+.loop-search-container{
+  text-align: left;
+  margin-bottom: 10px;
+  position: relative;
+  top: 25px;
+}
+
+.distance-search-container{
+  flex-grow: 3;
+}
+
 .search-slider-values-container{
   display: flex;
   justify-content: space-between;
