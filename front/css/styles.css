@@ -120,11 +120,11 @@ h2 {
 }
 
 .activity-search-container .activity-icon.activity-running{
-  background-position: center -32px;
+  background-position: 0px -64px;
 }
 
 .activity-search-container .activity-icon.activity-mountain-biking{
-  background-position: center -64px;
+  background-position: 0px -32px;
 }
 
 .activity-search {

@@ -11,6 +11,7 @@ lastMarker = null;
 
 map = null;
 markers = {};
+markersLayer = null;
 difficultValues = {
     '1': {
         name: 'easy',
@@ -72,12 +73,33 @@ $(document).ready(function() {
 
     initializeSearch(map);
 
-    searchRoutes(map);
+    searchRoutes();
 
 });
 
-function searchRoutes(map){
-  $.getJSON('http://localhost:8000/routes', function( data ) {
+function searchRoutes(){
+  // Clear old markers
+  if (markersLayer != null){
+    map.removeLayer(markersLayer);
+  }
+  markers = {};
+  lastIcon = null;
+  lastMarker = null;
+
+  markersLayer = new L.FeatureGroup();
+  map.addLayer(markersLayer);
+
+
+
+
+
+  var url = "http://localhost:8000/routes?"
+  url += "route_loop=" + getRouteLoop() + "&";
+  url += "route_type=" + getRouteType() + "&";
+  url += "min_dist=" + getRouteMinDist() + "&";
+  url += "max_dist=" + getRouteMaxDist() + "&";
+
+  $.getJSON(url, function( data ) {
       data.forEach(function(path) {
           newPath(
               [path.start_point.coordinates[0],
@@ -131,9 +153,15 @@ function initializeSearch(map) {
       slide: function( event, ui ) {
         $("#distance-search-min").text(ui.values[0]+"km");
         $("#distance-search-max").text(ui.values[1]+"km");
+        searchRoutes();
       }
     });
   } );
+
+
+  $(".research").on('click',function (e) {
+    searchRoutes();
+  });
 
 }
 
@@ -190,7 +218,7 @@ function newPath(origin, path, map, difficulty, external_id) {
                 map.removeLayer(newLine);
             }
         })
-        .addTo(map);
+        .addTo(markersLayer);
 
     markers[external_id] = marker;
 
@@ -255,4 +283,33 @@ function addDetail(data) {
             .find('.star:nth('+i+')')
             .addClass('star3');      
     }
+}
+
+
+function getRouteLoop(){
+  if ($("#loop-search")[0].checked) {
+    return "2"
+  }
+  return "1";
+}
+function getRouteType(){
+   if ($("#activity-hiking").hasClass("selected")){
+    return "hiking";
+  } else if ($("#activity-running").hasClass("selected")){
+    return "running";
+  } else if ($("#activity-mountain-biking").hasClass("selected")){
+    return "mountain-biking";
+  } else if ($("#activity-other").hasClass("selected")){
+    return "other";
+  }
+
+  return "";
+}
+function getRouteMinDist(){
+  var str = $("#distance-search-min").text();
+  return str.substring(0, str.length - 2);
+}
+function getRouteMaxDist(){
+  var str = $("#distance-search-max").text();
+  return str.substring(0, str.length - 2);
 }
