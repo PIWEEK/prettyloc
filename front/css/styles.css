@@ -1,3 +1,9 @@
+/*
+bluegreen: #197994
+lightgreen: #198f94
+red: #cc393b
+*/
+
 body {
   margin: 0;
   padding: 0;
@@ -116,15 +122,15 @@ h2 {
 }
 
 .activity-search-container .activity-icon.activity-hiking{
-  background-position: center 0px;
+  background-image: url('/img/hiking.svg');
 }
 
 .activity-search-container .activity-icon.activity-running{
-  background-position: 0px -64px;
+  background-image: url('/img/running.svg');
 }
 
 .activity-search-container .activity-icon.activity-mountain-biking{
-  background-position: 0px -32px;
+  background-image: url('/img/biking.svg');
 }
 
 .activity-search {
@@ -237,4 +243,11 @@ h2 {
 
 .star.star3 {
   background: url(/img/star3.png) no-repeat 0 center transparent;
+}
+
+/*----- COLOR TUNNING -----*/
+
+.sidebar-tabs > li.active, .sidebar-tabs > ul > li.active,
+.sidebar-header {
+  background-color: #197994;
 }
