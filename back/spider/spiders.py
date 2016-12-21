@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import logging
-import time
 
 import scrapy
 from django.contrib.gis.geos import Point
@@ -40,14 +39,20 @@ class RoutesSpider(scrapy.Spider):
                 route_id = int(route_urls[index + 3:])
                 route = Route.objects.filter(external_id=route_id).first()
                 if route is None:
-                    time.sleep(1)
+                    # time.sleep(1)
                     yield scrapy.Request(response.urljoin(route_urls),
                                          callback=self.parse_route)
 
         next_route = [url for url in urls if 'https://es.wikiloc.com/wikiloc/find.do' in url][-1]
 
+        print("\n\n\n")
+        print("##################################################")
+        print(next_route)
+        print("##################################################")
+        print("\n\n\n")
+
         if next_route not in self.old_urls:
-            time.sleep(5)
+            # time.sleep(2)
             yield scrapy.Request(next_route, self.parse)
 
     def parse_route(self, response):

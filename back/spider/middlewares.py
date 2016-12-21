@@ -17,4 +17,4 @@ class RandomUserAgentMiddleware(object):
 class ProxyMiddleware(object):
     def process_request(self, request, spider):
         print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@ Proxy Middelware")
-        request.meta['proxy'] = 'http://127.0.0.1:8081'
+        request.meta['proxy'] = 'http://127.0.0.1:8123'
