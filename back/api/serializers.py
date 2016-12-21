@@ -7,9 +7,10 @@ class RouteSerializer(serializers.HyperlinkedModelSerializer):
     def get_start_point(self, obj):
         return obj.start_point.json
 
-    def get_line(self, obj):
-        return obj.line.json
+    #def get_line(self, obj):
+    #    return obj.line.json
 
     class Meta:
         model = Route
-        fields = '__all__'
+        #fields = '__all__'
+        exclude = ('line',)

@@ -31,10 +31,12 @@ $(document).ready(function() {
     var map = L.map('map', {
         center: [40.73784, -4.06569],
         zoom: 15,
-        layers: [topomap]
+        layers: [outdoors]
     });
 
-
+    //map.on('click', function(e) {
+    //        alert("Lat,Lon: " + e.latlng.lat + "," + e.latlng.lng)
+    //});
 
     var baseMaps = {
             "<span class='outdoors'>Outdoors</span>": outdoors,

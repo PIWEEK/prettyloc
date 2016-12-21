@@ -2,7 +2,10 @@ from django.contrib.gis.db.models import PointField, LineStringField, GeoManager
 from django.db import models
 
 TYPES = (
-    ('hicking', 'hicking'),
+    ('hiking', 'hiking'),
+    ('cycling', 'cycling'),
+    ('mountain-biking', 'mountain-biking'),
+    ('walking', 'walking')
 )
 
 DIFFICULTIES = (
