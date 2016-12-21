@@ -34,9 +34,23 @@ body {
   display:none;
 }
 
-.sidebar-pane input {
-  width: 90%;
+
+.text-search-container {
+  display: flex;
+  justify-content: space-around;
+  margin: 20px 0;
 }
+
+.sidebar-pane #search-text {
+  flex-grow: 1;
+}
+
+.sidebar-pane #search-text-icon {
+  cursor: pointer;
+  margin-left: 5px;
+  line-height: 32px;
+}
+
 
 .activity-search-container {
   border-top: 1px solid black;

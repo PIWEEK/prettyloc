@@ -72,11 +72,16 @@ function initializeSearch(map) {
       showMarker: false,
   }).addTo(map);
 
-  $('#searchText').on('keypress',function (e) {
+  $('#search-text').on('keypress',function (e) {
     if (e.which == 13) {
-      geoSearch.geosearch($('#searchText').val());
+      geoSearch.geosearch($('#search-text').val());
       return false;
     }
+  });
+
+  $('#search-text-icon').on('click',function (e) {
+      geoSearch.geosearch($('#search-text').val());
+      return false;
   });
 
   $('.activity-search').on('click',function (e) {
