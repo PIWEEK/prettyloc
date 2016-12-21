@@ -90,6 +90,32 @@ function initializeSearch(map) {
 
   });
 
+  $( function() {
+    $( "#distance-search-slider-range" ).slider({
+      range: true,
+      min: 0,
+      max: 100,
+      values: [ 0, 100 ],
+      slide: function( event, ui ) {
+        $("#distance-search-min").text(ui.values[0]+"km");
+        $("#distance-search-max").text(ui.values[1]+"km");
+      }
+    });
+  } );
+
+  $( function() {
+    $( "#duration-search-slider-range" ).slider({
+      range: true,
+      min: 0,
+      max: 24,
+      values: [ 0, 24 ],
+      slide: function( event, ui ) {
+        $("#duration-search-min").text(ui.values[0]+"h");
+        $("#duration-search-max").text(ui.values[1]+"h");
+      }
+    });
+  } );
+
 }
 
 // choose map providers between: https://leaflet-extras.github.io/leaflet-providers/preview/
