@@ -1,18 +1,28 @@
 flag = true;
 newLine2 = {};
-difficult = L.AwesomeMarkers.icon({
-        icon: 'map-marker',
-        markerColor: 'red'
-      });
-moderate = L.AwesomeMarkers.icon({
-        icon: 'map-marker',
-        markerColor: 'orange'
-      });
-easy = L.AwesomeMarkers.icon({
-        icon: 'map-marker',
-        markerColor: 'green'
-      });
 
+difficultValues = {
+    '1': {
+        name: 'easy',
+        color: 'green'
+    },
+    '2': {
+        name: 'easy',
+        color: 'green'
+    },
+    '3': {
+        name: 'moderate',
+        color: 'orange'
+    },
+    '4': {
+        name: 'moderate',
+        color: 'orange'
+    },
+    '5': {
+        name: 'difficult',
+        color: 'red'
+    }
+};
 
 $(document).ready(function() {
 
@@ -152,26 +162,13 @@ function toggleLine(routes, map) {
 
 function newPath(origin, path, map, difficulty) {
     var newLine;
-    var difficulty_icon = easy;
-    switch(difficulty) {
-        case '1':
-            difficulty_icon = easy;
-            break;
-        case '2':
-            difficulty_icon = easy;
-            break;
-        case '3':
-            difficulty_icon = moderate;
-            break;
-        case '4':
-            difficulty_icon = moderate;
-            break;
-        case '5':
-            difficulty_icon = difficult;
-            break;
-    }
 
-    var marker = L.marker(origin, {icon: difficulty_icon})
+    var iconMarker = L.AwesomeMarkers.icon({
+        icon: 'map-marker',
+        markerColor: difficultValues[difficulty].color
+      });
+
+    var marker = L.marker(origin, {icon: iconMarker})
         .on('mouseover', function() {
             if (flag) {
                 newLine = line(path, map);
@@ -196,5 +193,28 @@ function newPath(origin, path, map, difficulty) {
 }
 
 function addDetail(data) {
-    $('#sidebar').find('#route-detail').append('<p>'+data.title+'</p>');
+    $('#sidebar')
+        .find('#route-detail')
+        .find('h2')
+        .html(data.title);
+    $('#sidebar')
+        .find('#route-detail')
+        .find('.path_type')
+        .html('Type: ' + data.route_type);
+    $('#sidebar')
+        .find('#route-detail')
+        .find('.path_difficulty')
+        .html('Technical difficulty: ' + difficultValues[data.technical_difficulty].name);
+    $('#sidebar')
+        .find('#route-detail')
+        .find('.path_size')
+        .html('Lenght: ' + data.route_length + ' / '+ 'Height: ' + data.route_height);
+    $('#sidebar')
+        .find('#route-detail')
+        .find('.path_time')
+        .html('Time: ' + data.time);
+    $('#sidebar')
+        .find('#route-detail')
+        .find('.path_stars')
+        .html('Points (1/5): ' + data.stars);
 }

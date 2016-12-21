@@ -6,6 +6,10 @@ body {
 
 }
 
+h2 {
+  font-size: 1.3rem;
+}
+
 #map {
   height: 100vh;
   width: 100vW;
@@ -114,4 +118,26 @@ body {
 
 .search-slider-range{
   width: 90%
+}
+
+.sidebar-left .sidebar-content {
+  background-color: #eee;
+}
+
+#route-detail div {
+  padding: 1rem;
+}
+
+#route-detail div ul {
+  list-style: none;
+  padding: 1rem;
+}
+
+#route-detail div li {
+  border-bottom: 1px solid #ccc;
+  padding: 1rem 0;
+}
+
+#route-detail div li:last-child {
+  border: none;
 }
