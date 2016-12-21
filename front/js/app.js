@@ -43,8 +43,8 @@ $(document).ready(function() {
 
     var sidebar = L.control.sidebar('sidebar').addTo(map);
 
-    $.getJSON( "js/data.json", function( data ) {
-        data.results.forEach(function(path) {
+    $.getJSON('http://localhost:8000/routes', function( data ) {
+        data.forEach(function(path) {
             newPath(
                 [path.start_point.coordinates[0],
                 path.start_point.coordinates[1]],
