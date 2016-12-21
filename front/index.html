@@ -2,7 +2,7 @@
 <html lang="en">
 
   <head>
-    <title>Prettyloc</title>
+    <title>prettyLoc</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -15,6 +15,9 @@
   </head>
 
   <body>
+      <header>
+        <h1>prettyLoc</h1>
+      </header>
       <div id="sidebar" class="sidebar sidebar-left leaflet-touch collapsed">
         <div class="sidebar-tabs">
             <ul role="tablist">
@@ -60,8 +63,6 @@
                     </div>
                   </div>
 
-
-
                 </div>
             </div>
 
@@ -70,11 +71,19 @@
                 <div>
                     <h2></h2>
                     <ul>
-                        <li class="path_type"></li>
+                        <li>
+                            <span class="path_type"></span>
+                            <span class="path_time"></span>
+                        </li>
                         <li class="path_difficulty"></li>
                         <li class="path_size"></li>
-                        <li class="path_time"></li>
-                        <li class="path_stars"></li>
+                        <li class="path_stars">
+                            <span class="star"></span>
+                            <span class="star"></span>
+                            <span class="star"></span>
+                            <span class="star"></span>
+                            <span class="star"></span>
+                        </li>
                     </ul>
                 </div>
                 <div id="search-results">

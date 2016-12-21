@@ -234,7 +234,7 @@ function addDetail(data) {
     $('#sidebar')
         .find('#route-detail')
         .find('.path_type')
-        .html('Type: ' + data.route_type);
+        .addClass(data.route_type);
     $('#sidebar')
         .find('#route-detail')
         .find('.path_difficulty')
@@ -246,9 +246,13 @@ function addDetail(data) {
     $('#sidebar')
         .find('#route-detail')
         .find('.path_time')
-        .html('Time: ' + data.time);
-    $('#sidebar')
-        .find('#route-detail')
-        .find('.path_stars')
-        .html('Points (1/5): ' + data.stars);
+        .html(data.time);
+
+    for (var i=0;i<(data.stars-1);i++) {
+        $('#sidebar')
+            .find('#route-detail')
+            .find('.path_stars')
+            .find('.star:nth('+i+')')
+            .addClass('star3');      
+    }
 }

@@ -2,8 +2,23 @@ body {
   margin: 0;
   padding: 0;
   font-family: 'Roboto', sans-serif;
+}
 
+header {
+  top: 0;
+  left: 50%;
+  position: absolute;
+  z-index: 1000;
+}
 
+header h1 {
+  background: url(/img/logo.png) no-repeat 0 1rem;
+  height: 90px;
+  text-indent: -999px;
+  display: block;
+  width: 90px;
+  margin: 0 auto;
+  padding: 0;
 }
 
 h2 {
@@ -56,23 +71,36 @@ h2 {
 }
 
 .filter-search-container {
-  border-top: 1px solid black;
-  border-bottom: 1px solid black;
-  padding-bottom: 10px;
-  width: 90%;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  padding: 1rem 0 2rem;
   text-align: center;
 }
 
+.distance-search-container,
+.duration-search-container {
+  display: flex;
+  flex-direction: column;  
+  align-items: center;
+  margin-top: 2rem;
+}
+
+.distance-search-container h3,
+.duration-search-container h3 {
+  display: flex;
+  flex-grow: 1;  
+  margin-bottom: 0;
+}
 
 .activity-search-container {
   display: flex;
   justify-content: space-around;
-  margin: 20px 0;
+  margin-bottom: 0.5rem;
 }
 
 .activity-search-container div {
-  margin: 10px;
   height: 32px;
+  width: 65px;
   text-align: center;
 }
 
@@ -82,31 +110,31 @@ h2 {
 }
 
 .activity-search-container .activity-icon {
-  width: 32px;
   background-image: url('/img/sports.png');
   background-repeat: no-repeat;
   overflow: hidden;
 }
 
 .activity-search-container .activity-icon.activity-hiking{
-  background-position: 0px 0px;
+  background-position: center 0px;
 }
 
 .activity-search-container .activity-icon.activity-running{
-  background-position: 0px -32px;
+  background-position: center -32px;
 }
 
 .activity-search-container .activity-icon.activity-mountain-biking{
-  background-position: 0px -64px;
+  background-position: center -64px;
 }
 
 .activity-search {
   cursor: pointer;
   border: 2px solid transparent;
 }
+.activity-search:hover,
 .activity-search.selected {
   padding: 0px;
-  border: 2px solid black;
+  background-color: #bbb;
 }
 
 
@@ -147,19 +175,66 @@ h2 {
 
 #route-detail div ul {
   list-style: none;
-  padding: 1rem;
+  padding: 0;
 }
 
 #route-detail div li {
   border-bottom: 1px solid #ccc;
   padding: 1rem 0;
+  display: flex;
 }
 
 #route-detail div li:last-child {
   border: none;
 }
 
-
 .route-title.selected {
   background-color: lightblue;
+}
+
+.path_type {
+  display: flex;
+  width: 30px;
+  height: 30px;
+}
+
+.path_type.hiking,
+.path_type.walking {
+  background: url('/img/sports.png') no-repeat center 0 transparent;
+}
+
+.path_type.running {
+  background: url('/img/sports.png') no-repeat center -32px transparent;
+}
+
+.path_type.mountain-biking,
+.path_type.cycling {
+  background: url('/img/sports.png') no-repeat center -64px transparent;
+}
+
+.path_time {
+  background: url(/img/time.png) no-repeat 0 center transparent;
+  text-indent: 30px;
+  background-size: 20px 20px;
+  display: flex;
+  align-items: center;  
+  margin-left: 1rem;
+}
+
+.path_stars {
+  justify-content: space-around;  
+}
+
+.star {
+  background: url(/img/star1.png) no-repeat 0 center transparent;
+  width: 30px;
+  height: 30px;  
+}
+
+.star.star2 {
+  background: url(/img/star2.png) no-repeat 0 center transparent;
+}
+
+.star.star3 {
+  background: url(/img/star3.png) no-repeat 0 center transparent;
 }
