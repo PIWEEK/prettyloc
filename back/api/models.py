@@ -1,13 +1,6 @@
 from django.contrib.gis.db.models import PointField, LineStringField, GeoManager
 from django.db import models
 
-TYPES = (
-    ('hiking', 'hiking'),
-    ('cycling', 'cycling'),
-    ('mountain-biking', 'mountain-biking'),
-    ('walking', 'walking')
-)
-
 DIFFICULTIES = (
     (1, 'easy'),
     (2, 'moderate'),
@@ -20,9 +13,9 @@ DIFFICULTIES = (
 class Route(models.Model):
     title = models.TextField()
     external_id = models.IntegerField()
-    route_type = models.CharField(max_length=100, choices=TYPES)
+    route_type = models.CharField(max_length=100)
     route_loop = models.BooleanField()
-    technical_difficulty = models.CharField(max_length=100, choices=DIFFICULTIES)
+    technical_difficulty = models.IntegerField(choices=DIFFICULTIES)
     route_length = models.FloatField()
     route_uphill = models.FloatField()
     route_downhill = models.FloatField()
