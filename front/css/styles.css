@@ -252,3 +252,8 @@ h2 {
 .sidebar-header {
   background-color: #197994;
 }
+
+#search-results{
+  margin-top:30px;
+  border-top: 1px solid black;
+}
