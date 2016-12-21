@@ -13,6 +13,7 @@ easy = L.AwesomeMarkers.icon({
         markerColor: 'green'
       });
 
+
 $(document).ready(function() {
 
     var outdoors = title('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw',
@@ -57,7 +58,27 @@ $(document).ready(function() {
     });
 
 
+
+    initializeSearch(map);
+
+
+
 });
+
+function initializeSearch(map) {
+  var geoSearch = new L.Control.GeoSearch({
+      provider: new L.GeoSearch.Provider.OpenStreetMap(),
+      position: 'bottomright',
+      showMarker: false,
+  }).addTo(map);
+
+  $('#searchText').on('keypress',function (e) {
+    if (e.which == 13) {
+      geoSearch.geosearch($('#searchText').val());
+      return false;    //<---- Add this line
+    }
+  });
+}
 
 // choose map providers between: https://leaflet-extras.github.io/leaflet-providers/preview/
 function title(url, attribution, id) {
