@@ -75,9 +75,16 @@ function initializeSearch(map) {
   $('#searchText').on('keypress',function (e) {
     if (e.which == 13) {
       geoSearch.geosearch($('#searchText').val());
-      return false;    //<---- Add this line
+      return false;
     }
   });
+
+  $('.activity-search').on('click',function (e) {
+    $('.activity-search').removeClass("selected");
+    $(e.currentTarget).addClass("selected");
+
+  });
+
 }
 
 // choose map providers between: https://leaflet-extras.github.io/leaflet-providers/preview/
