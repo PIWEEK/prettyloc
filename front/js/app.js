@@ -89,15 +89,18 @@ function searchRoutes(){
   markersLayer = new L.FeatureGroup();
   map.addLayer(markersLayer);
 
+  $(".route-title").remove();
+
 
 
 
 
   var url = "http://localhost:8000/routes?"
-  url += "route_loop=" + getRouteLoop() + "&";
-  url += "route_type=" + getRouteType() + "&";
-  url += "min_dist=" + getRouteMinDist() + "&";
-  url += "max_dist=" + getRouteMaxDist() + "&";
+  url +=  getUrlParamRouteLoop();
+  url += getUrlParamRouteType();
+  url += getUrlParamRouteMinDist();
+  url += getUrlParamRouteMaxDist();
+  url += getRouteTechnicalDifficulty();
 
   $.getJSON(url, function( data ) {
       data.forEach(function(path) {
@@ -153,6 +156,20 @@ function initializeSearch(map) {
       slide: function( event, ui ) {
         $("#distance-search-min").text(ui.values[0]+"km");
         $("#distance-search-max").text(ui.values[1]+"km");
+        searchRoutes();
+      }
+    });
+  } );
+
+  $( function() {
+    $( "#difficulty-search-slider-range" ).slider({
+      range: true,
+      min: 1,
+      max: 5,
+      values: [ 1, 5 ],
+      slide: function( event, ui ) {
+        $("#difficulty-search-min").text(ui.values[0]);
+        $("#difficulty-search-max").text(ui.values[1]);
         searchRoutes();
       }
     });
@@ -281,35 +298,45 @@ function addDetail(data) {
             .find('#route-detail')
             .find('.path_stars')
             .find('.star:nth('+i+')')
-            .addClass('star3');      
+            .addClass('star3');
     }
 }
 
 
-function getRouteLoop(){
+function getUrlParamRouteLoop(){
   if ($("#loop-search")[0].checked) {
-    return "2"
+    return "route_loop=2&"
   }
-  return "1";
+  return "route_loop=1&";
 }
-function getRouteType(){
+function getUrlParamRouteType(){
    if ($("#activity-hiking").hasClass("selected")){
-    return "hiking";
+    return "route_type=hiking&";
   } else if ($("#activity-running").hasClass("selected")){
-    return "running";
+    return "route_type=running&";
   } else if ($("#activity-mountain-biking").hasClass("selected")){
-    return "mountain-biking";
+    return "route_type=mountain-biking&";
   } else if ($("#activity-other").hasClass("selected")){
-    return "other";
+    return "route_type=other&";
   }
 
   return "";
 }
-function getRouteMinDist(){
+function getUrlParamRouteMinDist(){
   var str = $("#distance-search-min").text();
-  return str.substring(0, str.length - 2);
+  return "min_dist="+str.substring(0, str.length - 2)+"&";
 }
-function getRouteMaxDist(){
+function getUrlParamRouteMaxDist(){
   var str = $("#distance-search-max").text();
-  return str.substring(0, str.length - 2);
+  return "max_dist="+str.substring(0, str.length - 2)+"&";
+}
+function getRouteTechnicalDifficulty(){
+  var diffMin = parseInt($("#difficulty-search-min").text(), 10);
+  var diffMax = parseInt($("#difficulty-search-max").text(), 10);
+  var str = "";
+  for (var i=diffMin;i<=diffMax;i++){
+    str += "technical_difficulty="+i+"&";
+  }
+  return str;
+
 }

@@ -83,18 +83,18 @@ h2 {
   text-align: center;
 }
 
-.distance-search-container,
+.difficulty-search-container,
 .duration-search-container {
   display: flex;
-  flex-direction: column;  
+  flex-direction: column;
   align-items: center;
   margin-top: 2rem;
 }
 
-.distance-search-container h3,
+.difficulty-search-container h3,
 .duration-search-container h3 {
   display: flex;
-  flex-grow: 1;  
+  flex-grow: 1;
   margin-bottom: 0;
 }
 
@@ -143,7 +143,7 @@ h2 {
   color: #fff;
 }
 
-.distance-and-loop-container{
+.difficulty-and-loop-container{
   display: flex;
   justify-content: space-between;
 }
@@ -155,7 +155,7 @@ h2 {
   top: 25px;
 }
 
-.distance-search-container{
+.difficulty-search-container{
   flex-grow: 3;
 }
 
@@ -202,7 +202,7 @@ h2 {
   width: 30px;
   height: 30px;
   background-repeat: no-repeat;
-  background-position: center center;  
+  background-position: center center;
 }
 
 .path_type.hiking,
@@ -224,18 +224,18 @@ h2 {
   text-indent: 30px;
   background-size: 20px 20px;
   display: flex;
-  align-items: center;  
+  align-items: center;
   margin-left: 1rem;
 }
 
 .path_stars {
-  justify-content: space-around;  
+  justify-content: space-around;
 }
 
 .star {
   background: url(/img/star1.png) no-repeat 0 center transparent;
   width: 30px;
-  height: 30px;  
+  height: 30px;
 }
 
 .star.star2 {
