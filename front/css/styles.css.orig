@@ -120,6 +120,7 @@ h2 {
   width: 90%
 }
 
+<<<<<<< HEAD
 .sidebar-left .sidebar-content {
   background-color: #eee;
 }
@@ -140,9 +141,9 @@ h2 {
 
 #route-detail div li:last-child {
   border: none;
-}
-
+=======
 
 .route-title.selected {
   background-color: lightblue;
+>>>>>>> Add functionality to routes list
 }

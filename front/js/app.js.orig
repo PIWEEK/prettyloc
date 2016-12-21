@@ -1,16 +1,7 @@
 flag = true;
 newLine2 = {};
 
-selectedIcon = L.AwesomeMarkers.icon({
-  icon: 'map-marker',
-  markerColor: 'blue'
-});
-
-lastIcon = null;
-lastMarker = null;
-
-map = null;
-markers = {};
+<<<<<<< HEAD
 difficultValues = {
     '1': {
         name: 'easy',
@@ -33,6 +24,18 @@ difficultValues = {
         color: 'red'
     }
 };
+=======
+selectedIcon = L.AwesomeMarkers.icon({
+  icon: 'map-marker',
+  markerColor: 'blue'
+});
+
+lastIcon = null;
+lastMarker = null;
+
+map = null;
+markers = {};
+>>>>>>> Add functionality to routes list
 
 $(document).ready(function() {
 
@@ -215,31 +218,7 @@ function newPath(origin, path, map, difficulty, external_id) {
 }
 
 function addDetail(data) {
-    var route = $("<p>");
-    route.text(data.title);
-    route.addClass("route-title");
-    route.data("external_id", data.external_id);
-
-    route.on('mouseover',function (e) {
-      $(".route-title").removeClass("selected");
-      $(e.target).addClass("selected");
-      var marker = markers[data.external_id];
-
-      if (lastMarker != null){
-        lastMarker.setIcon(lastIcon);
-        lastMarker.fire('mouseout');
-      }
-      lastIcon = marker.options.icon;
-      lastMarker = marker;
-      //map.setView(marker.getLatLng());
-      marker.setIcon(selectedIcon)
-      marker.fire('mouseover');
-    });
-
-
-
-    $('#sidebar').find('#search-results').append(route);
-
+<<<<<<< HEAD
     $('#sidebar')
         .find('#route-detail')
         .find('h2')
@@ -264,4 +243,30 @@ function addDetail(data) {
         .find('#route-detail')
         .find('.path_stars')
         .html('Points (1/5): ' + data.stars);
+=======
+    var route = $("<p>");
+    route.text(data.title);
+    route.addClass("route-title");
+    route.data("external_id", data.external_id);
+
+    route.on('mouseover',function (e) {
+      $(".route-title").removeClass("selected");
+      $(e.target).addClass("selected");
+      var marker = markers[data.external_id];
+
+      if (lastMarker != null){
+        lastMarker.setIcon(lastIcon);
+        lastMarker.fire('mouseout');
+      }
+      lastIcon = marker.options.icon;
+      lastMarker = marker;
+      //map.setView(marker.getLatLng());
+      marker.setIcon(selectedIcon)
+      marker.fire('mouseover');
+    });
+
+
+
+    $('#sidebar').find('#route-detail').append(route);
+>>>>>>> Add functionality to routes list
 }
