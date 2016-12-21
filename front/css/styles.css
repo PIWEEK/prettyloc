@@ -116,9 +116,8 @@ h2 {
 }
 
 .activity-search-container .activity-icon {
-  background-image: url('/img/sports.png');
   background-repeat: no-repeat;
-  overflow: hidden;
+  background-position: center center;
 }
 
 .activity-search-container .activity-icon.activity-hiking{
@@ -140,9 +139,9 @@ h2 {
 .activity-search:hover,
 .activity-search.selected {
   padding: 0px;
-  background-color: #bbb;
+  background-color: #197994;
+  color: #fff;
 }
-
 
 .distance-and-loop-container{
   display: flex;
@@ -202,20 +201,22 @@ h2 {
   display: flex;
   width: 30px;
   height: 30px;
+  background-repeat: no-repeat;
+  background-position: center center;  
 }
 
 .path_type.hiking,
 .path_type.walking {
-  background: url('/img/sports.png') no-repeat center 0 transparent;
+  background-image: url('/img/hiking.svg');
 }
 
 .path_type.running {
-  background: url('/img/sports.png') no-repeat center -32px transparent;
+  background-image: url('/img/running.svg');
 }
 
 .path_type.mountain-biking,
 .path_type.cycling {
-  background: url('/img/sports.png') no-repeat center -64px transparent;
+  background-image: url('/img/biking.svg');
 }
 
 .path_time {
