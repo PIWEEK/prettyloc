@@ -80,7 +80,7 @@ $(document).ready(function() {
 });
 
 function searchRoutes(map){
-  $.getJSON('http://localhost:8000/routes', function( data ) {
+  $.getJSON('http://prettyloc.es/api/routes', function( data ) {
       data.forEach(function(path) {
           newPath(
               [path.start_point.coordinates[0],

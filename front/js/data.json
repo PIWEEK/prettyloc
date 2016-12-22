@@ -4,7 +4,7 @@
   "previous": null,
   "results": [
     {
-      "url": "http://localhost:8000/routes/1/?format=json",
+      "url": "http://prettyloc.es/api/routes/1/?format=json",
       "title": "La Peñota - Arcipreste de Hita - Peña del Cuervo - Puerto del León",
       "external_id": 6830607,
       "route_type": "hiking",
@@ -1634,7 +1634,7 @@
       }
     },
     {
-      "url": "http://localhost:8000/routes/2/?format=json",
+      "url": "http://prettyloc.es/api/routes/2/?format=json",
       "title": "Cabeza Lijar - Cerro Salmanca - Puerto del León",
       "external_id": 7696595,
       "route_type": "hiking",
@@ -3264,7 +3264,7 @@
       }
     },
     {
-      "url": "http://localhost:8000/routes/3/?format=json",
+      "url": "http://prettyloc.es/api/routes/3/?format=json",
       "title": "MALAGA-RINCON...-TORRE DEL MAR-ZAFARRAYA-ALFARNATE-COLMENAR-PUERTO DEL LEON-MLG",
       "external_id": 7224489,
       "route_type": "cycling",
@@ -4894,7 +4894,7 @@
       }
     },
     {
-      "url": "http://localhost:8000/routes/4/?format=json",
+      "url": "http://prettyloc.es/api/routes/4/?format=json",
       "title": "Torremolinos-Olías-Puerto del León",
       "external_id": 5882420,
       "route_type": "mountain-biking",
@@ -6524,7 +6524,7 @@
       }
     },
     {
-      "url": "http://localhost:8000/routes/5/?format=json",
+      "url": "http://prettyloc.es/api/routes/5/?format=json",
       "title": "Circular Puerto del León-Cerro Salamanca-Cabeza Líjar",
       "external_id": 10718696,
       "route_type": "hiking",
@@ -8154,7 +8154,7 @@
       }
     },
     {
-      "url": "http://localhost:8000/routes/6/?format=json",
+      "url": "http://prettyloc.es/api/routes/6/?format=json",
       "title": "CERCEDILLA - FUENFRIA - MARICHIVA - SENDA ARCIPESTRE - CERCEDILLA (sin pasar por el puerto del león)",
       "external_id": 577303,
       "route_type": "mountain-biking",
@@ -9784,7 +9784,7 @@
       }
     },
     {
-      "url": "http://localhost:8000/routes/7/?format=json",
+      "url": "http://prettyloc.es/api/routes/7/?format=json",
       "title": "PUERTO DEL LEÓN-PISTA CDO. LA CIERVA-CERRO PIÑONERO-PISTA ÁLAMOS BLANCOS-ERMITA S. MACARIO-LA JAROSA",
       "external_id": 5428406,
       "route_type": "hiking",
@@ -11414,7 +11414,7 @@
       }
     },
     {
-      "url": "http://localhost:8000/routes/8/?format=json",
+      "url": "http://prettyloc.es/api/routes/8/?format=json",
       "title": "Málaga, Vélez-Málaga, Benamargosa, Comares, Santopitar, Puerto del León, Málaga.",
       "external_id": 4933884,
       "route_type": "cycling",
@@ -13044,7 +13044,7 @@
       }
     },
     {
-      "url": "http://localhost:8000/routes/9/?format=json",
+      "url": "http://prettyloc.es/api/routes/9/?format=json",
       "title": "Puerto del León, Camino del arcipreste, Cabeza Reina",
       "external_id": 11643684,
       "route_type": "mountain-biking",
@@ -14674,7 +14674,7 @@
       }
     },
     {
-      "url": "http://localhost:8000/routes/10/?format=json",
+      "url": "http://prettyloc.es/api/routes/10/?format=json",
       "title": "Paseo por Dehesa de Navalvillar ( Colmenar Viejo )",
       "external_id": 5736121,
       "route_type": "walking",

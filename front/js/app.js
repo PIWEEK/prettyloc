@@ -109,7 +109,7 @@ function searchRoutes(){
 
   $(".route-title").remove();
 
-  var url = "http://localhost:8000/routes/?"
+  var url = "http://prettyloc.es/api/routes/?"
   url +=  getUrlParamRouteLoop();
   url += getUrlParamRouteType();
   url += getUrlParamRouteMinDist();
