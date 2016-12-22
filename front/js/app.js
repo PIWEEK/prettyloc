@@ -45,11 +45,18 @@ $(document).ready(function() {
                         '(<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)',
                         '');
 
+
     map = L.map('map', {
         center: [40.73784, -4.06569],
         zoom: 15,
         layers: [outdoors]
     });
+
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position){
+          map.setView(new L.LatLng(position.coords.latitude, position.coords.longitude));
+        });
+    }
 
     //map.on('click', function(e) {
     //        alert("Lat,Lon: " + e.latlng.lat + "," + e.latlng.lng)
