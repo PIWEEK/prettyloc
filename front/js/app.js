@@ -246,15 +246,71 @@ function newPath(origin, path, map, difficulty, external_id) {
     });
 }
 
+function groupActivities(activity){
+  if ((activity == 'hiking') || (activity == 'walking')  || (activity == 'nordic-walking')){
+    return 'hiking';
+  }
+
+  if ((activity == 'mountain-biking') || (activity == 'cyclocross') || (activity == 'cycling') || (activity == 'bicycle-touring')){
+    return 'mountain-biking';
+  }
+
+  if ((activity == 'running') || (activity == 'trail-running')){
+    return 'running';
+  }
+
+  return 'other';
+}
+
 function addDetail(data) {
-    var route = $("<p>");
-    route.text(data.title);
+    var route = $("<div>");
+
     route.addClass("route-title");
     route.data("external_id", data.external_id);
 
+
+    var name = $("<div>")
+    name.addClass("route-name");
+    var activity = $('<span title="' + data.route_type + '"></span>');
+    activity.addClass("path_type");
+    activity.addClass(groupActivities(data.route_type));
+
+    name.append($("<span>"+data.title+"</span>"));
+    name.append(activity);
+    route.append(name);
+
+    var info = $("<div>")
+    info.addClass("route-info");
+
+    var route_length = $("<span>")
+    route_length.addClass("info-item")
+    route_length.text(data.route_length+"km");
+
+    var route_uphill = $("<span title='Elevation gain uphill'>")
+    route_uphill.addClass("info-item")
+    var arrow_up = $('<i class="fa fa-arrow-circle-up" aria-hidden="true">&nbsp;</i>');
+    route_uphill.append(arrow_up);
+    route_uphill.append($("<span>"+data.route_uphill+"m</span>"));
+
+    var route_downhill = $("<span title='Elevation gain downhill'>")
+    route_downhill.addClass("info-item")
+    var arrow_down = $('<i class="fa fa-arrow-circle-down" aria-hidden="true">&nbsp;</i>');
+    route_downhill.append(arrow_down);
+    route_downhill.append($("<span>"+data.route_downhill+"m</span>"));
+
+    info.append(route_length);
+    info.append(route_uphill);
+    info.append(route_downhill);
+    route.append(info);
+
+
+
+
     route.on('mouseover',function (e) {
       $(".route-title").removeClass("selected");
-      $(e.target).addClass("selected");
+      current = $(e.target).parents(".route-title");
+      current.addClass("selected");
+
       var marker = markers[data.external_id];
 
       if (lastMarker != null){
@@ -263,7 +319,7 @@ function addDetail(data) {
       }
       lastIcon = marker.options.icon;
       lastMarker = marker;
-      //map.setView(marker.getLatLng());
+      map.setView(marker.getLatLng());
       marker.setIcon(selectedIcon)
       marker.fire('mouseover');
     });
@@ -301,7 +357,7 @@ function addDetail(data) {
             .addClass('star3');
     }
 }
-
+var debug;
 
 function getUrlParamRouteLoop(){
   if ($("#loop-search")[0].checked) {

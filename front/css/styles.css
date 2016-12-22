@@ -193,8 +193,28 @@ h2 {
   border: none;
 }
 
+.route-title {
+  margin-top: 10px;
+  font-size: 16px;
+}
+
 .route-title.selected {
   background-color: lightblue;
+}
+
+.route-name {
+  display: flex;
+  justify-content: space-between;
+}
+
+.route-info {
+  font-size: 14px;
+  color: darkgrey;
+
+}
+
+.route-info .info-item {
+  margin-right: 10px;
 }
 
 .path_type {
@@ -217,6 +237,11 @@ h2 {
 .path_type.mountain-biking,
 .path_type.cycling {
   background-image: url('/img/biking.svg');
+}
+
+.path_type.other {
+  background-image: url('/img/other.svg');
+  background-size: 30px 30px;
 }
 
 .path_time {
