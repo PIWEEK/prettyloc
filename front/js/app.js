@@ -258,7 +258,7 @@ function newPath(origin, path_line, map, difficulty, external_id, title, route_t
       });
 
     var popupInfo = '<div class="popup_box">';
-    popupInfo += '<div class="popup_head"><div class="path_type">'+ groupActivities(route_type) +'</div>';
+    popupInfo += '<div class="popup_head"><div class="path_type '+difficultValues[difficulty].color+'">'+ groupActivities(route_type) +'</div>';
     popupInfo += '<div><a target="_blank" href="https://www.wikiloc.com/wikiloc/view.do?id='+external_id+'">'+title+'</a></div></div>';
     popupInfo += '<div>';
     popupInfo += '<span class="info-item">'+route_length+'km&nbsp;</span>';
@@ -347,7 +347,6 @@ function addDetail(data) {
     route_downhill.append(arrow_down);
     route_downhill.append($("<span>"+data.route_downhill+"m</span>"));
 
-    info.append($("<span title='Difficulty "+data.technical_difficulty+"' class='info-item difficulty"+data.technical_difficulty+"'>&nbsp;</span>"));
     info.append(route_length);
     info.append(route_uphill);
     info.append(route_downhill);
