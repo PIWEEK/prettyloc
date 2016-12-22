@@ -6,8 +6,18 @@ lastBounding = null;
 
 map = null;
 markers = {};
-routes_list = {};
+marker_layer_id = {};
 markersLayer = null;
+routesLayer = null;
+permanentRoutesLayer = null;
+permanentRoutesIds = [];
+visibleMarkerRoutesIds = [];
+
+
+permanentMarkers = {};
+
+
+
 difficultValues = {
     '1': {
         name: 'easy',
@@ -90,6 +100,11 @@ $(document).ready(function() {
 
     searchRoutes();
 
+    routesLayer = new L.FeatureGroup();
+    permanentRoutesLayer = new L.FeatureGroup();
+    map.addLayer(permanentRoutesLayer);
+    map.addLayer(routesLayer);
+
 });
 
 function searchRoutes(){
@@ -100,7 +115,7 @@ function searchRoutes(){
     setTimeout(function(){map.removeLayer(oldMarkersLayer)}, 1000);
   }
   markers = {};
-  routes_list = {};
+  lines_layer_list = {};
   lastIcon = null;
   lastMarker = null;
 
@@ -235,7 +250,7 @@ function title(url, attribution, id) {
 }
 
 function line(data) {
-	return L.geoJSON(data).addTo(map);
+	return L.geoJSON(data).addTo(routesLayer);
 }
 
 function toggleLine(routes) {
@@ -288,17 +303,30 @@ function newPath(origin, difficulty, external_id, title, route_type, route_lengt
                   .bindPopup(popupInfo)
                   .openPopup();
               if (flag) {
-                newLine = line(path.line);
-                addSinglePathDetail(path);
+                index = visibleMarkerRoutesIds.indexOf(marker._leaflet_id);
+                if (index == -1){
+                  // The route is not visible
+                  newLine = line(path.line);
+                  addSinglePathDetail(path);
+                  marker_layer_id[marker._leaflet_id]=newLine._leaflet_id;
+                  visibleMarkerRoutesIds.push(marker._leaflet_id);
+                  console.log("Add new route");
+                }
               }
             });
 
         })
         .on('mouseout', function(e){
             if (flag) {
-                map.removeLayer(newLine);
-                marker.closePopup();
+              marker.closePopup();
+              routesLayer.eachLayer(function (layer) {
+                routesLayer.removeLayer(layer);
+              });
+              visibleMarkerRoutesIds = [];
             }
+        })
+        .on('click', function(e){
+          toggle_route_permanent(marker);
         })
         .addTo(markersLayer);
 
@@ -328,7 +356,6 @@ function groupActivities(activity){
 }
 
 function addDetail(data) {
-    routes_list[data.external_id] = data;
     var route = $("<div>");
 
     route.addClass("route-title");
@@ -427,7 +454,7 @@ function addSinglePathDetail(data) {
             .find('.path_stars')
             .find('.star:nth('+i+')')
             .addClass('star3');
-    }  
+    }
 }
 
 var debug;
@@ -480,4 +507,42 @@ function getUrlParamUphill(){
 function getUrlParamBoundBox(){
   lastBounding = map.getBounds();
   return "in_bbox="+lastBounding._southWest.lat+","+lastBounding._southWest.lng+","+lastBounding._northEast.lat+","+lastBounding._northEast.lng+"&";
+}
+
+function toggle_route_permanent(marker){
+  layer_id = marker_layer_id[marker._leaflet_id];
+  permanent_layer_id = permanentMarkers[marker._leaflet_id];
+
+  if (permanent_layer_id){
+    // Remove from permanents
+    permanentRoutesLayer.eachLayer(function (layer) {
+      if (layer._leaflet_id == permanent_layer_id){
+        permanentRoutesLayer.removeLayer(layer);
+      }
+    });
+    delete permanentMarkers[marker._leaflet_id];
+    marker.setIcon(L.AwesomeMarkers.icon({
+        icon: 'map-marker',
+        markerColor: marker.options.icon.options.markerColor
+      }));
+  } else {
+    //Is not permanent, make permanent
+    routesLayer.eachLayer(function (layer) {
+      if (layer._leaflet_id == layer_id){
+        routesLayer.removeLayer(layer);
+        var l = layer.addTo(permanentRoutesLayer);
+        marker_layer_id[marker._leaflet_id] = l._leaflet_id;
+        permanentMarkers[marker._leaflet_id] = l._leaflet_id;
+
+        marker.setIcon(L.AwesomeMarkers.icon({
+          icon: 'flag',
+          markerColor: marker.options.icon.options.markerColor,
+          prefix: 'fa',
+          iconColor: 'white'
+        }));
+
+      }
+    });
+
+  }
 }
