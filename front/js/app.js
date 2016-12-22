@@ -11,6 +11,7 @@ lastMarker = null;
 
 map = null;
 markers = {};
+routes_list = {};
 markersLayer = null;
 difficultValues = {
     '1': {
@@ -83,6 +84,7 @@ function searchRoutes(){
     map.removeLayer(markersLayer);
   }
   markers = {};
+  routes_list = {};
   lastIcon = null;
   lastMarker = null;
 
@@ -111,7 +113,12 @@ function searchRoutes(){
               path.line,
               map,
               path.technical_difficulty,
-              path.external_id
+              path.external_id,
+              path.title,
+              path.route_type,
+              path.route_length,
+              path.route_uphill,
+              path.route_downhill
           );
           addDetail(path);
       });
@@ -227,7 +234,7 @@ function line(data, map) {
 function toggleLine(routes, map) {
     var popup = '';
 
-    if (flag) {
+    /*if (flag) {
         popup = $('<a class="popup_link">show route</a>').click(function(e) {
             newLine2 = line(routes, map);
             flag = false;
@@ -237,12 +244,12 @@ function toggleLine(routes, map) {
             map.removeLayer(newLine2);
             flag = true;
         })[0];
-    }
+    }*/
 
     return popup;
 }
 
-function newPath(origin, path, map, difficulty, external_id) {
+function newPath(origin, path_line, map, difficulty, external_id, title, route_type, route_length, route_uphill, route_downhill) {
     var newLine;
 
     var iconMarker = L.AwesomeMarkers.icon({
@@ -250,14 +257,31 @@ function newPath(origin, path, map, difficulty, external_id) {
         markerColor: difficultValues[difficulty].color
       });
 
+
+
+    var popupInfo = '<div style="text-align:center";>';
+    popupInfo += '<div style="width:100%;" class="path_type '+ groupActivities(route_type) +'"></div>';
+    popupInfo += '<div><a target="_blank" href="https://www.wikiloc.com/wikiloc/view.do?id='+external_id+'">'+title+'</a></div>';
+    popupInfo += '<div>';
+    popupInfo += '<span class="info-item">'+route_length+'km&nbsp;</span>';
+    popupInfo += '<span class="info-item"><i class="fa fa-arrow-circle-up" aria-hidden="true">&nbsp;</i>'+route_uphill+'m</span>';
+    popupInfo += '<span class="info-item"><i class="fa fa-arrow-circle-down" aria-hidden="true">&nbsp;</i>'+route_downhill+'m</span>';
+    popupInfo += '</div>';
+    popupInfo += '</div>';
+
+
+
+
+
+
     var marker = L.marker(origin, {icon: iconMarker})
         .on('mouseover', function() {
             if (flag) {
-                newLine = line(path, map);
+                newLine = line(path_line, map);
             }
             marker
                 .closePopup()
-                .bindPopup(toggleLine(path, map))
+                .bindPopup(popupInfo)
                 .openPopup();
         })
         .on('mouseout', function(e){
@@ -293,6 +317,7 @@ function groupActivities(activity){
 }
 
 function addDetail(data) {
+    routes_list[data.external_id] = data;
     var route = $("<div>");
 
     route.addClass("route-title");
