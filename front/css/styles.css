@@ -251,34 +251,6 @@ svg {
   background-color: red;
 }
 
-.path_type {
-  display: flex;
-  width: 60px;
-  height: 30px;
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-size: 20px 20px;
-}
-
-.path_type.hiking,
-.path_type.walking {
-  background-image: url('/img/hiking.svg');
-}
-
-.path_type.running {
-  background-image: url('/img/running.svg');
-}
-
-.path_type.mountain-biking,
-.path_type.cycling {
-  background-image: url('/img/biking.svg');
-}
-
-.path_type.other {
-  background-image: url('/img/other.svg');
-  background-size: 30px 30px;
-}
-
 .path_time {
   background: url(/img/time.png) no-repeat 0 center transparent;
   text-indent: 30px;
@@ -323,6 +295,10 @@ svg {
 .popup_head div:last-child {
   display: flex;
   align-self: center;  
+}
+
+.popup_head + div {
+  text-align: center;
 }
 
 /*----- COLOR TUNNING -----*/
