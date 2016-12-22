@@ -83,11 +83,20 @@ svg {
   line-height: 32px;
 }
 
+#filters-title {
+  background-color: #197994;
+  padding: 5px 10px 5px 20px;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
 .filter-search-container {
-  border-top: 1px solid #ccc;
-  border-bottom: 1px solid #ccc;
   padding: 1rem 0 2rem;
   text-align: center;
+  border: 1px solid #ccc;
+  display: none;
 }
 
 .difficulty-search-container,

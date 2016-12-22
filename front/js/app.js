@@ -119,6 +119,15 @@ function searchRoutes(){
 }
 
 function initializeSearch(map) {
+
+  $("#filters-title").on('click',function (e) {
+      $(".filter-search-container").toggle();
+      $("#filters-title i").toggleClass("fa-caret-up");
+      $("#filters-title i").toggleClass("fa-caret-down");
+      return false;
+  });
+
+
   var geoSearch = new L.Control.GeoSearch({
       provider: new L.GeoSearch.Provider.OpenStreetMap(),
       position: 'bottomright',
