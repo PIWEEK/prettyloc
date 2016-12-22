@@ -102,13 +102,14 @@ svg {
   line-height: 32px;
 }
 
-#filters-title {
+#filters-title, #routes-title {
   background-color: #197994;
   padding: 5px 10px 5px 20px;
   color: white;
   display: flex;
   justify-content: space-between;
   cursor: pointer;
+  margin-bottom: 10px;
 }
 
 .filter-search-container {
@@ -117,6 +118,7 @@ svg {
   text-align: center;
   border: 1px solid #ccc;
   display: none;
+  margin-bottom: 10px; 
 }
 
 .difficulty-search-container,
@@ -210,7 +212,7 @@ svg {
   margin-top: 10px;
   font-size: 16px;
   border-top: 1px solid #ccc;
-  padding-top: 1rem;  
+  padding-top: 1rem;
 }
 
 .route-title.selected {
@@ -294,7 +296,7 @@ svg {
 
 .popup_head div:last-child {
   display: flex;
-  align-self: center;  
+  align-self: center;
 }
 
 .popup_head + div {

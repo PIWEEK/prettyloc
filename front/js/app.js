@@ -124,7 +124,8 @@ function searchRoutes(){
               path.route_type,
               path.route_length,
               path.route_uphill,
-              path.route_downhill
+              path.route_downhill,
+              path.route_loop
           );
           addDetail(path);
       });
@@ -249,7 +250,7 @@ function toggleLine(routes, map) {
     return popup;
 }
 
-function newPath(origin, path_line, map, difficulty, external_id, title, route_type, route_length, route_uphill, route_downhill) {
+function newPath(origin, path_line, map, difficulty, external_id, title, route_type, route_length, route_uphill, route_downhill, route_loop) {
     var newLine;
 
     var iconMarker = L.AwesomeMarkers.icon({
@@ -264,6 +265,11 @@ function newPath(origin, path_line, map, difficulty, external_id, title, route_t
     popupInfo += '<span class="info-item">'+route_length+'km&nbsp;</span>';
     popupInfo += '<span class="info-item"><i class="fa fa-arrow-circle-up" aria-hidden="true">&nbsp;</i>'+route_uphill+'m</span>';
     popupInfo += '<span class="info-item"><i class="fa fa-arrow-circle-down" aria-hidden="true">&nbsp;</i>'+route_downhill+'m</span>';
+    var isLoop = "No";
+    if (route_loop){
+      isLoop = "Yes";
+    }
+    popupInfo += '<span class="info-item"><i class="fa fa-rotate-left" aria-hidden="true">&nbsp;</i>'+isLoop+'</span>';
     popupInfo += '</div>';
     popupInfo += '</div>';
 
@@ -347,9 +353,18 @@ function addDetail(data) {
     route_downhill.append(arrow_down);
     route_downhill.append($("<span>"+data.route_downhill+"m</span>"));
 
+    var isLoop = "No";
+    console.log(data.route_loop)
+    if (data.route_loop){
+      isLoop = "Yes";
+    }
+
+    var route_loop = $('<span class="info-item"><i class="fa fa-rotate-left" aria-hidden="true">&nbsp;</i>'+isLoop+'</span>');
+
     info.append(route_length);
     info.append(route_uphill);
     info.append(route_downhill);
+    info.append(route_loop);
     route.append(info);
 
     route.on('mouseover',function (e) {
