@@ -12,7 +12,7 @@ API calls
 
 Params:
 
-* &route_type=hiking&route_type=walking (multiple selection) If route_type=others, then it will return all other types
+* &route_type=hiking&route_type=walking (multiple selection) If route_type=other, then it will return all other types
 * &route_loop= (True, False)
 * &technical_difficulty=1&technical_difficulty=2 (multiple selection between: 1,2,3,4,5)
 * &min_dist=

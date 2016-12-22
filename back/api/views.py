@@ -33,6 +33,6 @@ class RouteView(viewsets.ReadOnlyModelViewSet):
     def get_queryset(self):
         queryset = Route.objects.all()
         route_types = self.request.query_params.getlist('route_type', None)
-        if 'others' in route_types:
+        if 'other' in route_types:
             queryset = queryset.exclude(route_type__in=types_with_icon)
         return queryset
