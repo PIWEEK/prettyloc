@@ -324,7 +324,7 @@ function groupActivities(activity){
     return '<svg xmlns="http://www.w3.org/2000/svg" width="21349.611" height="21333.337" viewBox="0 0 20.01526 20.000003"><g transform="translate(-173.23 -438.83)"><path d="M187.13 445.33l-3.6 2.9v4.3l-2.8-3.9c-.6-.8-.5-2 .3-2.7l4.5-3.8 1.7 1.2-.1 2z"/><circle cx="-12.178" cy="4.379" r="2" transform="translate(201.408 436.45)"/><path d="M177.43 457.73l1.7 1.1 3.9-4h-2.8M180.23 444.63l1.1-.8h-8.1v1h6.7c.1-.1.2-.1.3-.2zM178.73 447.83h-5.5v1h5.8c-.2-.3-.2-.7-.3-1zM179.13 445.83h-5.9v1h5.6c0-.4.2-.7.3-1z"/><path d="M183.354 447.255l-1.818.836 1.69 3.677c.003.01-.003-.007 0 0 .037.066.05.006.02.006H176.243v2h7c1.366 0 2.372-1.5 1.818-2.793l-.004-.014-1.706-3.71zM182.423 439.654c-.43-.09-.905-.093-1.395.07l.06-.017-4.103 1.1.52 1.933 4.128-1.11.028-.008c.218-.072.5-.01.858.204l3.826 2.847c.25.188.375.37.42.594v.002l.2 1.1.006.02c.298 1.344 1.507 2.383 2.974 2.383h3.3v-2h-3.3c-.532 0-.92-.36-1.02-.815-.002 0-.003 0-.003-.002l-.193-1.07-.002-.01c-.155-.777-.63-1.39-1.18-1.803v-.002l-3.943-2.93-.043-.026c-.318-.19-.706-.37-1.137-.46z" style="line-height:normal;text-indent:0;text-align:start;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;text-transform:none;block-progression:tb;isolation:auto;mix-blend-mode:normal" color="#000" font-family="sans-serif" white-space="normal" overflow="visible" solid-color="#000000"/></g></svg>';
   }
 
-  return '<svg xmlns="http://www.w3.org/2000/svg" width="36266.666" height="36266.666" viewBox="0 0 33.999999 33.999999"><g fill="#000"><path d="M17.123 9.2c-1.44 0-2.642.503-3.604 1.32-.963.817-1.527 1.48-1.69 3.48h2.937c.063-1 .302-1.23.715-1.61.413-.38.926-.62 1.54-.62.616 0 1.117.175 1.505.572.39.396.583.882.583 1.48s-.187 1.094-.558 1.5L16.78 17.09c-.518.518-.626.934-.78 1.25-.154.314-.003.793-.003 1.44V21h2v-.832c0-.646.29-1.148.58-1.504.113-.13.334-.287.522-.473.185-.185.447-.403.714-.654.267-.25.5-.457.662-.62.16-.16.403-.436.71-.824.534-.646.806-1.455.806-2.426 0-1.408-.45-2.503-1.356-3.29-.908-.782-2.077-1.174-3.517-1.174zm-.183 12.945c-.51 0-.946.18-1.31.534-.365.354-.547.78-.547 1.272 0 .493.186.914.558 1.262.374.348.815.52 1.324.52.51 0 .947-.177 1.31-.532.364-.356.547-.78.547-1.274s-.186-.915-.56-1.264c-.37-.348-.81-.52-1.32-.52z"/><path d="M17 0C7.61 0 0 7.61 0 17s7.61 17 17 17 17-7.61 17-17S26.39 0 17 0zm0 31C9.268 31 3 24.732 3 17S9.268 3 17 3s14 6.268 14 14-6.268 14-14 14z" /></g></svg>';
+  return '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm1.25 17c0 .69-.559 1.25-1.25 1.25-.689 0-1.25-.56-1.25-1.25s.561-1.25 1.25-1.25c.691 0 1.25.56 1.25 1.25zm1.393-9.998c-.608-.616-1.515-.955-2.551-.955-2.18 0-3.59 1.55-3.59 3.95h2.011c0-1.486.829-2.013 1.538-2.013.634 0 1.307.421 1.364 1.226.062.847-.39 1.277-.962 1.821-1.412 1.343-1.438 1.993-1.432 3.468h2.005c-.013-.664.03-1.203.935-2.178.677-.73 1.519-1.638 1.536-3.022.011-.924-.284-1.719-.854-2.297z"/></svg>';
 }
 
 function addDetail(data) {
@@ -366,7 +366,6 @@ function addDetail(data) {
     route_downhill.append($("<span>"+data.route_downhill+"m</span>"));
 
     var isLoop = "No";
-    console.log(data.route_loop)
     if (data.route_loop){
       isLoop = "Yes";
     }
@@ -407,19 +406,45 @@ function addSinglePathDetail(data) {
     $('#sidebar')
         .find('#route-detail')
         .find('.path_type')
-        .addClass(data.route_type);
+        .addClass(difficultValues[data.technical_difficulty].color)
+        .html(groupActivities(data.route_type));
+    $('#sidebar')
+        .find('#route-detail')
+        .find('.path_type_text')
+        .html('Path type: '+ data.route_type);        
     $('#sidebar')
         .find('#route-detail')
         .find('.path_difficulty')
         .html('Technical difficulty: ' + difficultValues[data.technical_difficulty].name);
+ 
+    
+
+    var route_uphill = $("<span title='Elevation gain uphill'>")
+    route_uphill.addClass("info-item")
+    var arrow_up = $('<i class="fa fa-arrow-circle-up" aria-hidden="true">&nbsp;</i>');
+    route_uphill.append(arrow_up);
+    route_uphill.append($("<span>"+data.route_uphill+"m</span>"));
+
+    var route_downhill = $("<span title='Elevation gain downhill'>")
+    route_downhill.addClass("info-item")
+    var arrow_down = $('<i class="fa fa-arrow-circle-down" aria-hidden="true">&nbsp;</i>');
+    route_downhill.append(arrow_down);
+    route_downhill.append($("<span>"+data.route_downhill+"m</span>"));
+    
     $('#sidebar')
         .find('#route-detail')
         .find('.path_size')
-        .html('Lenght: ' + data.route_length + ' / '+ 'Height: ' + data.route_height);
+        .empty()
+        .append(route_uphill)
+        .append(route_downhill);
     $('#sidebar')
         .find('#route-detail')
         .find('.path_time')
         .html(data.time);
+    $('#sidebar')
+        .find('#route-detail')
+        .find('.last_update')
+        .html('Last updated: '+data.upload_date);        
 
     for (var i=0;i<(data.stars-1);i++) {
         $('#sidebar')

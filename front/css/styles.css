@@ -103,21 +103,29 @@ h2 {
   line-height: 32px;
 }
 
-#filters-title, #routes-title {
+#filters-title {
   background-color: #197994;
   padding: 5px 10px 5px 20px;
   color: white;
   display: flex;
   justify-content: space-between;
   cursor: pointer;
-  margin-bottom: 10px;
+  margin-top: 1rem;
+}
+
+#routes-title {
+  margin-top: 1rem;
+  text-align: center;
+  background-color: #ccc;
+  font-size: 1.3rem;
+  padding: 0.5rem;
 }
 
 .filter-search-container {
-  border-top: 1px solid #ccc;
-  padding: 2rem 0;
+  padding: 2rem;
   text-align: center;
   border: 1px solid #ccc;
+  border-top: none;
   display: none;
   margin-bottom: 10px; 
 }
@@ -191,6 +199,10 @@ h2 {
 
 #route-detail div {
   padding: 1rem;
+  border: 1px solid #ccc;
+  margin-top: 1rem;
+  background-color: #ddd;
+  text-align: center;
 }
 
 
@@ -200,9 +212,9 @@ h2 {
 }
 
 #route-detail div li {
-  border-bottom: 1px solid #ccc;
-  padding: 1rem 0;
+  padding: 0.5rem 0;
   display: flex;
+  justify-content: center;
 }
 
 #route-detail div li:last-child {
@@ -256,8 +268,8 @@ h2 {
 
 .path_time {
   background: url(/img/time.png) no-repeat 0 center transparent;
-  text-indent: 30px;
-  background-size: 20px 20px;
+  padding-left: 30px;
+  background-size: 19px 19px;
   display: flex;
   align-items: center;
   margin-left: 1rem;
