@@ -86,7 +86,7 @@ $(document).ready(function() {
 
     var sidebar = L.control.sidebar('sidebar').addTo(map);
 
-    initializeSearch(map);
+    initializeSearch();
 
     searchRoutes();
 
@@ -109,7 +109,7 @@ function searchRoutes(){
 
   $(".route-title").remove();
 
-  var url = "http://localhost:8000/routes?"
+  var url = "http://localhost:8000/routes/?"
   url +=  getUrlParamRouteLoop();
   url += getUrlParamRouteType();
   url += getUrlParamRouteMinDist();
@@ -123,8 +123,6 @@ function searchRoutes(){
           newPath(
               [path.start_point.coordinates[0],
               path.start_point.coordinates[1]],
-              path.line,
-              map,
               path.technical_difficulty,
               path.external_id,
               path.title,
@@ -132,6 +130,7 @@ function searchRoutes(){
               path.route_length,
               path.route_uphill,
               path.route_downhill,
+              path.url,
               path.route_loop
           );
           addDetail(path);
@@ -139,7 +138,7 @@ function searchRoutes(){
   });
 }
 
-function initializeSearch(map) {
+function initializeSearch() {
 
   $("#filters-title").on('click',function (e) {
       $(".filter-search-container").toggle();
@@ -235,11 +234,11 @@ function title(url, attribution, id) {
 	});
 }
 
-function line(data, map) {
+function line(data) {
 	return L.geoJSON(data).addTo(map);
 }
 
-function toggleLine(routes, map) {
+function toggleLine(routes) {
     var popup = '';
 
     /*if (flag) {
@@ -257,7 +256,7 @@ function toggleLine(routes, map) {
     return popup;
 }
 
-function newPath(origin, path_line, map, difficulty, external_id, title, route_type, route_length, route_uphill, route_downhill, route_loop) {
+function newPath(origin, difficulty, external_id, title, route_type, route_length, route_uphill, route_downhill, urlDetail, route_loop) {
     var newLine;
 
     var iconMarker = L.AwesomeMarkers.icon({
@@ -282,28 +281,34 @@ function newPath(origin, path_line, map, difficulty, external_id, title, route_t
 
     var marker = L.marker(origin, {icon: iconMarker})
         .on('mouseover', function() {
-            if (flag) {
-                newLine = line(path_line, map);
-            }
-            marker
-                .closePopup()
-                .bindPopup(popupInfo)
-                .openPopup();
+
+            $.getJSON(urlDetail, function( path ) {
+                marker
+                  .closePopup()
+                  .bindPopup(popupInfo)
+                  .openPopup();
+              if (flag) {
+                newLine = line(path.line);
+                addSinglePathDetail(path);
+              }
+            });
+
         })
         .on('mouseout', function(e){
             if (flag) {
                 map.removeLayer(newLine);
+                marker.closePopup();
             }
         })
         .addTo(markersLayer);
 
     markers[external_id] = marker;
 
-    $('#map').on('click', '.popup_link',function() {
+/*    $('#map').on('click', '.popup_link',function() {
         if (marker._popup) {
-            marker._popup.setContent(toggleLine(path, map));
+            marker._popup.setContent(toggleLine(path));
         }
-    });
+    });*/
 }
 
 function groupActivities(activity){
@@ -319,7 +324,7 @@ function groupActivities(activity){
     return '<svg xmlns="http://www.w3.org/2000/svg" width="21349.611" height="21333.337" viewBox="0 0 20.01526 20.000003"><g transform="translate(-173.23 -438.83)"><path d="M187.13 445.33l-3.6 2.9v4.3l-2.8-3.9c-.6-.8-.5-2 .3-2.7l4.5-3.8 1.7 1.2-.1 2z"/><circle cx="-12.178" cy="4.379" r="2" transform="translate(201.408 436.45)"/><path d="M177.43 457.73l1.7 1.1 3.9-4h-2.8M180.23 444.63l1.1-.8h-8.1v1h6.7c.1-.1.2-.1.3-.2zM178.73 447.83h-5.5v1h5.8c-.2-.3-.2-.7-.3-1zM179.13 445.83h-5.9v1h5.6c0-.4.2-.7.3-1z"/><path d="M183.354 447.255l-1.818.836 1.69 3.677c.003.01-.003-.007 0 0 .037.066.05.006.02.006H176.243v2h7c1.366 0 2.372-1.5 1.818-2.793l-.004-.014-1.706-3.71zM182.423 439.654c-.43-.09-.905-.093-1.395.07l.06-.017-4.103 1.1.52 1.933 4.128-1.11.028-.008c.218-.072.5-.01.858.204l3.826 2.847c.25.188.375.37.42.594v.002l.2 1.1.006.02c.298 1.344 1.507 2.383 2.974 2.383h3.3v-2h-3.3c-.532 0-.92-.36-1.02-.815-.002 0-.003 0-.003-.002l-.193-1.07-.002-.01c-.155-.777-.63-1.39-1.18-1.803v-.002l-3.943-2.93-.043-.026c-.318-.19-.706-.37-1.137-.46z" style="line-height:normal;text-indent:0;text-align:start;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;text-transform:none;block-progression:tb;isolation:auto;mix-blend-mode:normal" color="#000" font-family="sans-serif" white-space="normal" overflow="visible" solid-color="#000000"/></g></svg>';
   }
 
-  return '<svg height="34" viewBox="0 0 34 34" width="34" xmlns="http://www.w3.org/2000/svg"><g fill="#231F20"><path d="M17.123 9.2c-1.44 0-2.642.503-3.604 1.32S11.993 12 11.83 14h2.937c.063-1 .302-1.23.715-1.61s.926-.62 1.54-.62c.616 0 1.117.175 1.505.572.39.396.583.882.583 1.48s-.187 1.094-.558 1.5l-1.772 1.768c-.518.518-.626.934-.78 1.25-.154.314-.003.793-.003 1.44V21h2v-.832c0-.646.29-1.148.58-1.504.113-.13.334-.287.522-.473.186-.186.448-.404.715-.655.267-.25.5-.457.662-.62.16-.16.403-.436.71-.824.534-.646.806-1.455.806-2.426 0-1.408-.45-2.503-1.356-3.29-.908-.782-2.077-1.174-3.517-1.174zM16.94 22.145c-.51 0-.946.18-1.31.534-.365.355-.547.78-.547 1.273 0 .493.186.914.558 1.262.373.348.814.52 1.323.52.51 0 .947-.177 1.31-.532.364-.356.547-.78.547-1.274s-.187-.915-.56-1.264c-.37-.348-.81-.52-1.32-.52z"/><path d="M17 0C7.61 0 0 7.61 0 17s7.61 17 17 17 17-7.61 17-17S26.39 0 17 0zm0 31C9.268 31 3 24.732 3 17S9.268 3 17 3s14 6.268 14 14-6.268 14-14 14z"/></g></svg>';
+  return '<svg xmlns="http://www.w3.org/2000/svg" width="36266.666" height="36266.666" viewBox="0 0 33.999999 33.999999"><g fill="#000"><path d="M17.123 9.2c-1.44 0-2.642.503-3.604 1.32-.963.817-1.527 1.48-1.69 3.48h2.937c.063-1 .302-1.23.715-1.61.413-.38.926-.62 1.54-.62.616 0 1.117.175 1.505.572.39.396.583.882.583 1.48s-.187 1.094-.558 1.5L16.78 17.09c-.518.518-.626.934-.78 1.25-.154.314-.003.793-.003 1.44V21h2v-.832c0-.646.29-1.148.58-1.504.113-.13.334-.287.522-.473.185-.185.447-.403.714-.654.267-.25.5-.457.662-.62.16-.16.403-.436.71-.824.534-.646.806-1.455.806-2.426 0-1.408-.45-2.503-1.356-3.29-.908-.782-2.077-1.174-3.517-1.174zm-.183 12.945c-.51 0-.946.18-1.31.534-.365.354-.547.78-.547 1.272 0 .493.186.914.558 1.262.374.348.815.52 1.324.52.51 0 .947-.177 1.31-.532.364-.356.547-.78.547-1.274s-.186-.915-.56-1.264c-.37-.348-.81-.52-1.32-.52z"/><path d="M17 0C7.61 0 0 7.61 0 17s7.61 17 17 17 17-7.61 17-17S26.39 0 17 0zm0 31C9.268 31 3 24.732 3 17S9.268 3 17 3s14 6.268 14 14-6.268 14-14 14z" /></g></svg>';
 }
 
 function addDetail(data) {
@@ -391,6 +396,9 @@ function addDetail(data) {
     });
 
     $('#sidebar').find('#search-results').append(route);
+}
+
+function addSinglePathDetail(data) {
 
     $('#sidebar')
         .find('#route-detail')
@@ -419,8 +427,9 @@ function addDetail(data) {
             .find('.path_stars')
             .find('.star:nth('+i+')')
             .addClass('star3');
-    }
+    }  
 }
+
 var debug;
 
 function getUrlParamRouteLoop(){
