@@ -89,3 +89,4 @@ ENV/
 .ropeproject
 **/.idea
 back/prettyloc_16542.tgz
+back/static

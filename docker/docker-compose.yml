@@ -1,26 +1,37 @@
 version: "2"
 services:
-    api:
-        image: api:1.0
-        container_name: api
-        ports:
-            - "8000:8000"
+    prettyloc_api:
+        image: prettyloc_api:1.0
+        container_name: prettyloc_api
+        #ports:
+        #    - "8008:8008"
         environment:
             - "PRETTYLOC_API_USER=postgres"
-            - "PRETTYLOC_API_HOST=postgres"
+            - "PRETTYLOC_API_HOST=prettyloc_postgres"
             - "PRETTYLOC_API_PORT=5432"
         networks:
             - prettyloc-network
-        command: bash -c "/myvenv/bin/python3 manage.py migrate && psql -d prettyloc -f /back/prettyloc.sql -h postgres -U postgres && /myvenv/bin/python3 manage.py runserver 0.0.0.0:8000 "
-    postgres:
-        image: postgres:1.0
-        container_name: postgres
+        command: bash -c "/myvenv/bin/python3 manage.py migrate && psql -d prettyloc -f /back/prettyloc.sql -h prettyloc_postgres -U postgres && /myvenv/bin/python manage.py collectstatic --noinput && /myvenv/bin/gunicorn -w 6 -t 60 -b 0.0.0.0:8008 project.wsgi --access-logfile gunicorn-access-log --error-logfile gunicorn-error-log --log-level debug"
+
+    prettyloc_postgres:
+        image: prettyloc_postgres:1.0
+        container_name: prettyloc_postgres
         environment:
             - "POSTGRES_DB=prettyloc"
         ports:
             - "5492:5432"
         networks:
             - prettyloc-network
+
+    prettyloc_front:
+        image: prettyloc_front:1.0
+        container_name: prettyloc_front
+        ports:
+            - "9001:9001"
+        networks:
+            - prettyloc-network
+        volumes_from:
+            - prettyloc_api
 
 networks:
     prettyloc-network:

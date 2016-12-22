@@ -20,5 +20,6 @@ RUN /myvenv/bin/pip install -r /back/requirements.txt
 
 # Setup the application
 COPY back/ /back
+VOLUME /back/static
 
 WORKDIR /back

@@ -5,3 +5,4 @@ scrapy
 djangorestframework-gis
 django-filter
 django-cors-headers
+gunicorn
