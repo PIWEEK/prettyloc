@@ -1,12 +1,6 @@
 flag = true;
 newLine2 = {};
 
-selectedIcon = L.AwesomeMarkers.icon({
-  icon: 'map-marker',
-  markerColor: 'blue'
-});
-
-lastIcon = null;
 lastMarker = null;
 
 map = null;
@@ -371,13 +365,11 @@ function addDetail(data) {
       var marker = markers[data.external_id];
 
       if (lastMarker != null){
-        lastMarker.setIcon(lastIcon);
         lastMarker.fire('mouseout');
       }
-      lastIcon = marker.options.icon;
+
       lastMarker = marker;
       map.setView(marker.getLatLng());
-      marker.setIcon(selectedIcon)
       marker.fire('mouseover');
     });
 
