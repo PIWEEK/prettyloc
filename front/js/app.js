@@ -100,7 +100,8 @@ function searchRoutes(){
   url += getUrlParamRouteType();
   url += getUrlParamRouteMinDist();
   url += getUrlParamRouteMaxDist();
-  url += getRouteTechnicalDifficulty();
+  url += getUrlParamRouteTechnicalDifficulty();
+  url += getUrlParamUphill();
 
   $.getJSON(url, function( data ) {
       data.forEach(function(path) {
@@ -156,6 +157,8 @@ function initializeSearch(map) {
       slide: function( event, ui ) {
         $("#distance-search-min").text(ui.values[0]+"km");
         $("#distance-search-max").text(ui.values[1]+"km");
+      },
+      stop: function( event, ui ) {
         searchRoutes();
       }
     });
@@ -170,6 +173,24 @@ function initializeSearch(map) {
       slide: function( event, ui ) {
         $("#difficulty-search-min").text(ui.values[0]);
         $("#difficulty-search-max").text(ui.values[1]);
+      },
+      stop: function( event, ui ) {
+        searchRoutes();
+      }
+    });
+  } );
+
+  $( function() {
+    $( "#uphill-search-slider-range" ).slider({
+      range: true,
+      min: 0,
+      max: 5000,
+      values: [ 0, 5000 ],
+      slide: function( event, ui ) {
+        $("#uphill-search-min").text(ui.values[0]+"m");
+        $("#uphill-search-max").text(ui.values[1]+"m");
+      },
+      stop: function( event, ui ) {
         searchRoutes();
       }
     });
@@ -388,7 +409,7 @@ function getUrlParamRouteMaxDist(){
   var str = $("#distance-search-max").text();
   return "max_dist="+str.substring(0, str.length - 2)+"&";
 }
-function getRouteTechnicalDifficulty(){
+function getUrlParamRouteTechnicalDifficulty(){
   var diffMin = parseInt($("#difficulty-search-min").text(), 10);
   var diffMax = parseInt($("#difficulty-search-max").text(), 10);
   var str = "";
@@ -396,5 +417,12 @@ function getRouteTechnicalDifficulty(){
     str += "technical_difficulty="+i+"&";
   }
   return str;
+}
 
+function getUrlParamUphill(){
+  var strMin = $("#uphill-search-min").text();
+  var strMax = $("#uphill-search-max").text();
+  str = "min_route_uphill="+strMin.substring(0, strMin.length - 1)+"&";
+  str += "max_route_uphill="+strMax.substring(0, strMax.length - 1)+"&";
+  return str;
 }
