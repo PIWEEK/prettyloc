@@ -2,6 +2,7 @@ flag = true;
 newLine2 = {};
 
 lastMarker = null;
+lastBounding = null;
 
 map = null;
 markers = {};
@@ -55,7 +56,19 @@ $(document).ready(function() {
     //});
 
     map.on('moveend', function(e) {
-       searchRoutes();
+       var bounding = map.getBounds();
+       if (lastBounding){
+         if (
+           (lastBounding._southWest.lat != bounding._southWest.lat)||
+           (lastBounding._southWest.lng != bounding._southWest.lng)||
+           (lastBounding._northEast.lat != bounding._northEast.lat)||
+           (lastBounding._northEast.lng != bounding._northEast.lng)
+         ){
+           searchRoutes();
+         }
+       } else {
+           searchRoutes();
+      }
     });
 
     var baseMaps = {
@@ -352,7 +365,7 @@ function addDetail(data) {
       }
 
       lastMarker = marker;
-      map.setView(marker.getLatLng());
+      //map.setView(marker.getLatLng());
       marker.fire('mouseover');
     });
 
@@ -435,6 +448,6 @@ function getUrlParamUphill(){
 }
 
 function getUrlParamBoundBox(){
-  bounds = map.getBounds();
-  return "in_bbox="+bounds._southWest.lat+","+bounds._southWest.lng+","+bounds._northEast.lat+","+bounds._northEast.lng+"&";
+  lastBounding = map.getBounds();
+  return "in_bbox="+lastBounding._southWest.lat+","+lastBounding._southWest.lng+","+lastBounding._northEast.lat+","+lastBounding._northEast.lng+"&";
 }
