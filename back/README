@@ -12,7 +12,7 @@ API calls
 
 Params:
 
-* &route_type= (hiking, cycling, walking, mountain-biking)
+* &route_type=hiking&route_type=walking (multiple selection)
 * &route_loop= (True, False)
 * &technical_difficulty=1&technical_difficulty=2 (multiple selection between: 1,2,3,4,5)
 * &min_dist=
@@ -21,5 +21,4 @@ Params:
 
 TODO
 
-* route_type=multiple selection
 * distancetopointfilter

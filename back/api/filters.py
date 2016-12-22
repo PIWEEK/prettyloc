@@ -1,5 +1,5 @@
 import django_filters
-from api.models import Route, DIFFICULTIES
+from api.models import Route, DIFFICULTIES, TYPES
 
 class RouteFilter(django_filters.FilterSet):
     min_dist = django_filters.NumberFilter(name="route_length", lookup_expr='gte')
@@ -8,6 +8,10 @@ class RouteFilter(django_filters.FilterSet):
             name="technical_difficulty",
             lookup_expr='in',
             choices=DIFFICULTIES)
+    route_type = django_filters.MultipleChoiceFilter(
+            name="route_type",
+            lookup_expr='in',
+            choices=TYPES)
 
     class Meta:
         model = Route
