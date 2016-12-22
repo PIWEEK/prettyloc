@@ -12,15 +12,17 @@ body {
 
 header {
   top: 0;
-  left: 50%;
+  left: 0;
   position: absolute;
   z-index: 1000;
+  width: 100%;
+  background-color: rgba(255,255,255,0.7);
 }
 
 header h1 {
   background: url(/img/logo.png) no-repeat 0 1rem;
   height: 90px;
-  text-indent: -999px;
+  text-indent: -9999px;
   display: block;
   width: 90px;
   margin: 0 auto;
@@ -29,6 +31,11 @@ header h1 {
 
 h2 {
   font-size: 1.3rem;
+}
+
+svg {
+  width: 30px;
+  height: 30px;
 }
 
 #map {
@@ -84,7 +91,8 @@ h2 {
 }
 
 .difficulty-search-container,
-.duration-search-container {
+.duration-search-container,
+.distance-search-container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -115,23 +123,6 @@ h2 {
   line-height: 32px;
 }
 
-.activity-search-container .activity-icon {
-  background-repeat: no-repeat;
-  background-position: center center;
-}
-
-.activity-search-container .activity-icon.activity-hiking{
-  background-image: url('/img/hiking.svg');
-}
-
-.activity-search-container .activity-icon.activity-running{
-  background-image: url('/img/running.svg');
-}
-
-.activity-search-container .activity-icon.activity-mountain-biking{
-  background-image: url('/img/biking.svg');
-}
-
 .activity-search {
   cursor: pointer;
   border: 2px solid transparent;
@@ -141,22 +132,21 @@ h2 {
   padding: 0px;
   background-color: #197994;
   color: #fff;
+  fill: #fff;
 }
 
 .difficulty-and-loop-container{
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
 }
 
 .loop-search-container{
-  text-align: left;
-  margin-bottom: 10px;
-  position: relative;
-  top: 25px;
+  justify-content: center;
+  margin-top: 2rem;
 }
 
-.difficulty-search-container{
-  flex-grow: 3;
+.loop-search-container i {
+  margin: 0 0.5rem;
 }
 
 .search-slider-values-container{
@@ -219,10 +209,11 @@ h2 {
 
 .path_type {
   display: flex;
-  width: 30px;
+  width: 60px;
   height: 30px;
   background-repeat: no-repeat;
   background-position: center center;
+  background-size: 20px 20px;
 }
 
 .path_type.hiking,
