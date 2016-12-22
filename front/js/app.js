@@ -367,11 +367,11 @@ function getUrlParamRouteLoop(){
 }
 function getUrlParamRouteType(){
    if ($("#activity-hiking").hasClass("selected")){
-    return "route_type=hiking&";
+    return "route_type=hiking&route_type=walking&route_type=norkic-walking&";
   } else if ($("#activity-running").hasClass("selected")){
-    return "route_type=running&";
+    return "route_type=running&route_type=trail-running&";
   } else if ($("#activity-mountain-biking").hasClass("selected")){
-    return "route_type=mountain-biking&";
+    return "route_type=mountain-biking&route_type=cyclocross&route_type=cycling&route_type=bicycle-touring&";
   } else if ($("#activity-other").hasClass("selected")){
     return "route_type=other&";
   }
