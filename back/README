@@ -18,6 +18,8 @@ Params:
 * &min_dist=
 * &max_dist=
 * &in_bbox=minLat,minLon,maxLat,maxLon
+* &min_route_uphill=
+* &max_route_uphill=
 
 TODO
 

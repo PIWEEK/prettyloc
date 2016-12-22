@@ -15,18 +15,19 @@ types_with_icon = [
 class RouteFilter(django_filters.FilterSet):
     min_dist = django_filters.NumberFilter(name="route_length", lookup_expr='gte')
     max_dist = django_filters.NumberFilter(name="route_length", lookup_expr='lte')
-    technical_difficulty = django_filters.MultipleChoiceFilter(
-            name="technical_difficulty",
-            lookup_expr='in',
-            choices=DIFFICULTIES)
-    route_type = django_filters.MultipleChoiceFilter(
-            method='route_type_filter',
-            name="route_type",
-            choices=TYPES + (('other', 'other'),))
+    technical_difficulty = django_filters.MultipleChoiceFilter(name="technical_difficulty",
+            lookup_expr='in', choices=DIFFICULTIES)
+    route_type = django_filters.MultipleChoiceFilter(method='route_type_filter',
+            name="route_type", choices=TYPES + (('other', 'other'),))
+    min_route_uphill = django_filters.NumberFilter(name="route_downhill", lookup_expr='gte')
+    max_route_uphill = django_filters.NumberFilter(name="route_uphill", lookup_expr='lte')
 
     class Meta:
         model = Route
-        fields = ['route_loop', 'route_type', 'min_dist', 'max_dist', 'technical_difficulty']
+        fields = ['route_loop', 'route_type',
+                  'min_dist', 'max_dist',
+                  'technical_difficulty',
+                  'min_route_uphill', 'max_route_uphill']
 
     def route_type_filter(self, queryset, name, choices):
         route_type = self.request.query_params.getlist('route_type', None)
