@@ -207,6 +207,21 @@ svg {
   margin-right: 10px;
 }
 
+.difficulty1, .difficulty2 {
+  width: 5px;
+  background-color: green;
+}
+
+.difficulty3, .difficulty4 {
+  width: 5px;
+  background-color: orange;
+}
+
+.difficulty5 {
+  width: 5px;
+  background-color: red;
+}
+
 .path_type {
   display: flex;
   width: 60px;

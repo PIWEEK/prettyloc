@@ -275,6 +275,7 @@ function addDetail(data) {
     activity.addClass("path_type");
     activity.addClass(groupActivities(data.route_type));
 
+
     name.append($("<span>"+data.title+"</span>"));
     name.append(activity);
     route.append(name);
@@ -298,6 +299,7 @@ function addDetail(data) {
     route_downhill.append(arrow_down);
     route_downhill.append($("<span>"+data.route_downhill+"m</span>"));
 
+    info.append($("<span title='Difficulty "+data.technical_difficulty+"' class='info-item difficulty"+data.technical_difficulty+"'>&nbsp;</span>"));
     info.append(route_length);
     info.append(route_uphill);
     info.append(route_downhill);
