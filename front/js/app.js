@@ -367,7 +367,7 @@ function getUrlParamRouteLoop(){
 }
 function getUrlParamRouteType(){
    if ($("#activity-hiking").hasClass("selected")){
-    return "route_type=hiking&route_type=walking&route_type=norkic-walking&";
+    return "route_type=hiking&route_type=walking&route_type=nordic-walking&";
   } else if ($("#activity-running").hasClass("selected")){
     return "route_type=running&route_type=trail-running&";
   } else if ($("#activity-mountain-biking").hasClass("selected")){
