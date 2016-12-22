@@ -2,7 +2,26 @@
 bluegreen: #197994
 lightgreen: #198f94
 red: #cc393b
+
+marker_blue: #38a9dc
+marker_orange: #ec902e
+marker_green: #71af26
 */
+
+.green {
+  fill: #71af26;
+  color: #71af26;
+}
+
+.orange {
+  fill: #ec902e;
+  color: #ec902e;
+}
+
+.red {
+  fill: red;
+  color: red;
+}
 
 body {
   margin: 0;
@@ -93,7 +112,8 @@ svg {
 }
 
 .filter-search-container {
-  padding: 1rem 0 2rem;
+  border-top: 1px solid #ccc;
+  padding: 2rem 0;
   text-align: center;
   border: 1px solid #ccc;
   display: none;
@@ -170,6 +190,7 @@ svg {
   padding: 1rem;
 }
 
+
 #route-detail div ul {
   list-style: none;
   padding: 0;
@@ -188,6 +209,8 @@ svg {
 .route-title {
   margin-top: 10px;
   font-size: 16px;
+  border-top: 1px solid #ccc;
+  padding-top: 1rem;  
 }
 
 .route-title.selected {
@@ -196,13 +219,17 @@ svg {
 
 .route-name {
   display: flex;
-  justify-content: space-between;
 }
 
 .route-info {
   font-size: 14px;
   color: darkgrey;
+  margin-left: 3rem;
+  margin-top: 0.3rem;
+}
 
+.route-name .title {
+  margin-left: 1rem;
 }
 
 .info-item {
@@ -279,14 +306,28 @@ svg {
   background: url(/img/star3.png) no-repeat 0 center transparent;
 }
 
+.popup_box {
+  display: flex;
+  flex-direction: column;
+}
+
+.popup_head {
+  display: flex;
+  margin-bottom: 0.5rem;
+}
+
+.popup_head .path_type {
+  width: 40px;
+}
+
+.popup_head div:last-child {
+  display: flex;
+  align-self: center;  
+}
+
 /*----- COLOR TUNNING -----*/
 
 .sidebar-tabs > li.active, .sidebar-tabs > ul > li.active,
 .sidebar-header {
   background-color: #197994;
-}
-
-#search-results{
-  margin-top:30px;
-  border-top: 1px solid black;
 }

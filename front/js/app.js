@@ -62,10 +62,6 @@ $(document).ready(function() {
 
     var sidebar = L.control.sidebar('sidebar').addTo(map);
 
-
-
-
-
     initializeSearch(map);
 
     searchRoutes();
@@ -86,10 +82,6 @@ function searchRoutes(){
   map.addLayer(markersLayer);
 
   $(".route-title").remove();
-
-
-
-
 
   var url = "http://localhost:8000/routes?"
   url +=  getUrlParamRouteLoop();
@@ -153,11 +145,6 @@ function initializeSearch(map) {
 
   });
 
-
-
-
-
-
   $( function() {
     $( "#distance-search-slider-range" ).slider({
       range: true,
@@ -206,7 +193,6 @@ function initializeSearch(map) {
     });
   } );
 
-
   $(".research").on('click',function (e) {
     searchRoutes();
   });
@@ -251,22 +237,15 @@ function newPath(origin, path_line, map, difficulty, external_id, title, route_t
         markerColor: difficultValues[difficulty].color
       });
 
-
-
-    var popupInfo = '<div style="text-align:center";>';
-    popupInfo += '<div style="width:100%;" class="path_type '+ groupActivities(route_type) +'"></div>';
-    popupInfo += '<div><a target="_blank" href="https://www.wikiloc.com/wikiloc/view.do?id='+external_id+'">'+title+'</a></div>';
+    var popupInfo = '<div class="popup_box">';
+    popupInfo += '<div class="popup_head"><div class="path_type">'+ groupActivities(route_type) +'</div>';
+    popupInfo += '<div><a target="_blank" href="https://www.wikiloc.com/wikiloc/view.do?id='+external_id+'">'+title+'</a></div></div>';
     popupInfo += '<div>';
     popupInfo += '<span class="info-item">'+route_length+'km&nbsp;</span>';
     popupInfo += '<span class="info-item"><i class="fa fa-arrow-circle-up" aria-hidden="true">&nbsp;</i>'+route_uphill+'m</span>';
     popupInfo += '<span class="info-item"><i class="fa fa-arrow-circle-down" aria-hidden="true">&nbsp;</i>'+route_downhill+'m</span>';
     popupInfo += '</div>';
     popupInfo += '</div>';
-
-
-
-
-
 
     var marker = L.marker(origin, {icon: iconMarker})
         .on('mouseover', function() {
@@ -296,18 +275,18 @@ function newPath(origin, path_line, map, difficulty, external_id, title, route_t
 
 function groupActivities(activity){
   if ((activity == 'hiking') || (activity == 'walking')  || (activity == 'nordic-walking')){
-    return 'hiking';
+    return '<svg xmlns="http://www.w3.org/2000/svg" width="15008.597" height="21333.334" viewBox="0 0 14.070559 20"><g transform="translate(-4.922 -2)"><circle r="2" cy="4" cx="13"/><path d="M10.9 6.4l2.6 2-1.3 4.6 1.7 2.3-.8 1.7-3.2-2.6c-.6-.5-.9-1.3-.7-2.1l1.7-5.9zM9.2 22l1.8-5-1.6-1.4L7.1 22M6.2 12.7c-.9-.3-1.5-1.3-1.2-2.2l.6-2c.6-1.8 2.6-2.8 4.4-2.3l-1.6 5.3c-.3 1-1.2 1.5-2.2 1.2z"/></g><path d="M13.07 4.912v15h1v-15h-1zM6.83 10.26l-1.52 1.302 2.382 2.777c.255.32.38.695.38 1.072v4.5h2v-4.5c0-.823-.278-1.647-.82-2.325l-.012-.013-2.41-2.813z" style="line-height:normal;text-indent:0;text-align:start;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;text-transform:none;block-progression:tb;isolation:auto;mix-blend-mode:normal" color="#000" font-family="sans-serif" white-space="normal" overflow="visible" solid-color="#000000"/><path d="M6.09 4.382l-.587 1.912 1.325.408.027.006c.63.157 1.153.455 1.635.937l.8.8c.636.635 1.552.823 2.303.673l2.5-.5-.392-1.96-2.5.5c-.248.05-.33.037-.495-.128l-.8-.8c-.72-.717-1.594-1.22-2.566-1.462l.05.014-1.3-.4z" style="line-height:normal;text-indent:0;text-align:start;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;text-transform:none;block-progression:tb;isolation:auto;mix-blend-mode:normal" color="#000" font-family="sans-serif" white-space="normal" overflow="visible" solid-color="#000000"/></svg>';
   }
 
   if ((activity == 'mountain-biking') || (activity == 'cyclocross') || (activity == 'cycling') || (activity == 'bicycle-touring')){
-    return 'mountain-biking';
+    return '<svg xmlns="http://www.w3.org/2000/svg" width="21333.334" height="21333.334" viewBox="0 0 20 20"><path d="M13 2a2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2 2 2 0 0 1 2 2zM16 10.6c1.3 0 2.4 1.1 2.4 2.4 0 1.3-1.1 2.4-2.4 2.4-1.3 0-2.4-1.1-2.4-2.4 0-1.3 1.1-2.4 2.4-2.4M16 9c-2.2 0-4 1.8-4 4s1.8 4 4 4 4-1.8 4-4-1.8-4-4-4zM4 13.6c1.3 0 2.4 1.1 2.4 2.4 0 1.3-1.1 2.4-2.4 2.4-1.3 0-2.4-1.1-2.4-2.4 0-1.3 1.1-2.4 2.4-2.4M4 12c-2.2 0-4 1.8-4 4s1.8 4 4 4 4-1.8 4-4-1.8-4-4-4zM9.6 12.1l-.1-1.8-3-1.3 2.7-3.3 3 .3-3.6-2.7c-.6-.5-1.4-.4-1.8.2-1 1.1-2.5 2.9-3.3 3.9-.9 1.1-.5 2.8.9 3.2l5.2 1.5zM.8 6.8C.1 6.3.1 5.3.6 4.6L1.9 3c1-1.2 2.7-1.4 3.9-.4l.2.2-3 3.8c-.6.7-1.5.8-2.2.2z"/><path d="M8.42 3.254L7.21 4.848l3.52 2.668 4.078.43.21-1.99-3.523-.37L8.42 3.254zM5.862 8.156l-.894 1.79L8.4 11.662l1.568 4.612 1.894-.645-1.832-5.39-4.168-2.084z" style="line-height:normal;text-indent:0;text-align:start;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;text-transform:none;block-progression:tb;isolation:auto;mix-blend-mode:normal" color="#000" font-family="sans-serif" white-space="normal" overflow="visible" solid-color="#000000"/></svg>';
   }
 
   if ((activity == 'running') || (activity == 'trail-running')){
-    return 'running';
+    return '<svg xmlns="http://www.w3.org/2000/svg" width="21349.611" height="21333.337" viewBox="0 0 20.01526 20.000003"><g transform="translate(-173.23 -438.83)"><path d="M187.13 445.33l-3.6 2.9v4.3l-2.8-3.9c-.6-.8-.5-2 .3-2.7l4.5-3.8 1.7 1.2-.1 2z"/><circle cx="-12.178" cy="4.379" r="2" transform="translate(201.408 436.45)"/><path d="M177.43 457.73l1.7 1.1 3.9-4h-2.8M180.23 444.63l1.1-.8h-8.1v1h6.7c.1-.1.2-.1.3-.2zM178.73 447.83h-5.5v1h5.8c-.2-.3-.2-.7-.3-1zM179.13 445.83h-5.9v1h5.6c0-.4.2-.7.3-1z"/><path d="M183.354 447.255l-1.818.836 1.69 3.677c.003.01-.003-.007 0 0 .037.066.05.006.02.006H176.243v2h7c1.366 0 2.372-1.5 1.818-2.793l-.004-.014-1.706-3.71zM182.423 439.654c-.43-.09-.905-.093-1.395.07l.06-.017-4.103 1.1.52 1.933 4.128-1.11.028-.008c.218-.072.5-.01.858.204l3.826 2.847c.25.188.375.37.42.594v.002l.2 1.1.006.02c.298 1.344 1.507 2.383 2.974 2.383h3.3v-2h-3.3c-.532 0-.92-.36-1.02-.815-.002 0-.003 0-.003-.002l-.193-1.07-.002-.01c-.155-.777-.63-1.39-1.18-1.803v-.002l-3.943-2.93-.043-.026c-.318-.19-.706-.37-1.137-.46z" style="line-height:normal;text-indent:0;text-align:start;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;text-transform:none;block-progression:tb;isolation:auto;mix-blend-mode:normal" color="#000" font-family="sans-serif" white-space="normal" overflow="visible" solid-color="#000000"/></g></svg>';
   }
 
-  return 'other';
+  return '<svg height="34" viewBox="0 0 34 34" width="34" xmlns="http://www.w3.org/2000/svg"><g fill="#231F20"><path d="M17.123 9.2c-1.44 0-2.642.503-3.604 1.32S11.993 12 11.83 14h2.937c.063-1 .302-1.23.715-1.61s.926-.62 1.54-.62c.616 0 1.117.175 1.505.572.39.396.583.882.583 1.48s-.187 1.094-.558 1.5l-1.772 1.768c-.518.518-.626.934-.78 1.25-.154.314-.003.793-.003 1.44V21h2v-.832c0-.646.29-1.148.58-1.504.113-.13.334-.287.522-.473.186-.186.448-.404.715-.655.267-.25.5-.457.662-.62.16-.16.403-.436.71-.824.534-.646.806-1.455.806-2.426 0-1.408-.45-2.503-1.356-3.29-.908-.782-2.077-1.174-3.517-1.174zM16.94 22.145c-.51 0-.946.18-1.31.534-.365.355-.547.78-.547 1.273 0 .493.186.914.558 1.262.373.348.814.52 1.323.52.51 0 .947-.177 1.31-.532.364-.356.547-.78.547-1.274s-.187-.915-.56-1.264c-.37-.348-.81-.52-1.32-.52z"/><path d="M17 0C7.61 0 0 7.61 0 17s7.61 17 17 17 17-7.61 17-17S26.39 0 17 0zm0 31C9.268 31 3 24.732 3 17S9.268 3 17 3s14 6.268 14 14-6.268 14-14 14z"/></g></svg>';
 }
 
 function addDetail(data) {
@@ -322,11 +301,11 @@ function addDetail(data) {
     name.addClass("route-name");
     var activity = $('<span title="' + data.route_type + '"></span>');
     activity.addClass("path_type");
-    activity.addClass(groupActivities(data.route_type));
+    activity.addClass(difficultValues[data.technical_difficulty].color);
+    activity.html(groupActivities(data.route_type));
 
-
-    name.append($("<span>"+data.title+"</span>"));
     name.append(activity);
+    name.append($("<span class='title'>"+data.title+"</span>"));
     route.append(name);
 
     var info = $("<div>")
@@ -354,9 +333,6 @@ function addDetail(data) {
     info.append(route_downhill);
     route.append(info);
 
-
-
-
     route.on('mouseover',function (e) {
       $(".route-title").removeClass("selected");
       current = $(e.target).parents(".route-title");
@@ -372,8 +348,6 @@ function addDetail(data) {
       map.setView(marker.getLatLng());
       marker.fire('mouseover');
     });
-
-
 
     $('#sidebar').find('#search-results').append(route);
 
