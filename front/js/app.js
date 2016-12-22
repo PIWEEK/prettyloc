@@ -54,6 +54,10 @@ $(document).ready(function() {
     //        alert("Lat,Lon: " + e.latlng.lat + "," + e.latlng.lng)
     //});
 
+    map.on('moveend', function(e) {
+       searchRoutes();
+    });
+
     var baseMaps = {
             "<span class='outdoors'>Outdoors</span>": outdoors,
             "<span class='topomap'>Topomap</span>": topomap
@@ -70,8 +74,10 @@ $(document).ready(function() {
 
 function searchRoutes(){
   // Clear old markers
-  if (markersLayer != null){
-    map.removeLayer(markersLayer);
+  var oldMarkersLayer = markersLayer;
+  if (oldMarkersLayer != null){
+    //Delete old markers one second from now, to avoid blink
+    setTimeout(function(){map.removeLayer(oldMarkersLayer)}, 1000);
   }
   markers = {};
   routes_list = {};
@@ -90,6 +96,7 @@ function searchRoutes(){
   url += getUrlParamRouteMaxDist();
   url += getUrlParamRouteTechnicalDifficulty();
   url += getUrlParamUphill();
+  url += getUrlParamBoundBox();
 
   $.getJSON(url, function( data ) {
       data.forEach(function(path) {
@@ -425,4 +432,9 @@ function getUrlParamUphill(){
   str = "min_route_uphill="+strMin.substring(0, strMin.length - 1)+"&";
   str += "max_route_uphill="+strMax.substring(0, strMax.length - 1)+"&";
   return str;
+}
+
+function getUrlParamBoundBox(){
+  bounds = map.getBounds();
+  return "in_bbox="+bounds._southWest.lat+","+bounds._southWest.lng+","+bounds._northEast.lat+","+bounds._northEast.lng+"&";
 }
