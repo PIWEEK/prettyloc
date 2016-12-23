@@ -318,3 +318,12 @@ h2 {
   text-align: right;
   font-size: 12px;
 }
+
+#fixed-route-container{
+  cursor: pointer;
+}
+
+#fixed-route-container.selected{
+  background-color: #197994;
+  color: white;
+}

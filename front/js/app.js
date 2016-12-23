@@ -107,6 +107,28 @@ $(document).ready(function() {
 
     searchRoutes();
 
+
+    $("#fixed-route-container").on('click',function (e) {
+      var external_id = $("#fixed-route-container").data("external_id");
+      if (external_id !== undefined){
+        var marker = markers[external_id];
+        var fixed = toogleFixedRoute(external_id, marker);
+        if (fixed){
+          $("#fixed-route-container").addClass("selected");
+          if (lastMarker != null){
+            lastMarker.fire('mouseout');
+          }
+
+          lastMarker = marker;
+          //map.setView(marker.getLatLng());
+          marker.fire('mouseover');
+        } else {
+          $("#fixed-route-container").removeClass("selected");
+          marker.fire('mouseout');
+        }
+      }
+    });
+
 });
 
 function searchRoutes(){
@@ -417,6 +439,12 @@ function addDetail(data) {
       marker.fire('mouseover');
     });
 
+    route.on('mouseout',function (e) {
+      var marker = markers[data.external_id];
+      clearRoutes();
+      marker.closePopup();
+    });
+
     route.on('click',function (e) {
       $("#a-route-detail i").click();
     });
@@ -490,6 +518,15 @@ function addSinglePathDetail(data) {
             .find('.star:nth('+i+')')
             .addClass('star3');
     }
+
+
+    index = fixedRoutes.indexOf(data.external_id);
+    $("#fixed-route-container").data("external_id", data.external_id);
+    if (index == -1){
+      $("#fixed-route-container").removeClass("selected");
+    } else{
+      $("#fixed-route-container").addClass("selected");
+    }
 }
 
 var debug;
@@ -554,6 +591,7 @@ function toogleFixedRoute(external_id, marker){
       prefix: 'fa',
       iconColor: 'white'
     }));
+    return true;
   } else {
     fixedRoutes.splice(index, 1);
     marker.setIcon(L.AwesomeMarkers.icon({
@@ -562,5 +600,6 @@ function toogleFixedRoute(external_id, marker){
       }));
     clearRoutes();
     flag = false;
+    return false;
   }
 }
