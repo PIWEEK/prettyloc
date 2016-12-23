@@ -1,5 +1,5 @@
-api_url = 'http://localhost:8008/api/routes/?';
-//api_url = "http://prettyloc.es/api/routes/?";
+//api_url = 'http://localhost:8008/api/routes/?';
+api_url = "http://prettyloc.es/api/routes/?";
 
 flag = true;
 newLine2 = {};
@@ -18,23 +18,23 @@ clusterLayer = null;
 
 difficultValues = {
     '1': {
-        name: 'easy',
+        name: 'fácil',
         color: 'green'
     },
     '2': {
-        name: 'easy',
+        name: 'fácil',
         color: 'green'
     },
     '3': {
-        name: 'moderate',
+        name: 'moderada',
         color: 'orange'
     },
     '4': {
-        name: 'moderate',
+        name: 'moderada',
         color: 'orange'
     },
     '5': {
-        name: 'difficult',
+        name: 'difícil',
         color: 'red'
     }
 };
@@ -161,7 +161,7 @@ function searchRoutes(){
 function initializeSearch() {
 
   $("#filters-title").on('click',function (e) {
-      $(".filter-search-container").toggle();
+      $(".filter-search-container").slideToggle();
       $("#filters-title i").toggleClass("fa-caret-up");
       $("#filters-title i").toggleClass("fa-caret-down");
       return false;
@@ -294,7 +294,7 @@ function newPath(origin, difficulty, external_id, title, route_type, route_lengt
     index = fixedRoutes.indexOf(external_id);
     var marker = L.marker(origin, {icon: iconMarker})
         .on('mouseover', function() {
-          if (index == -1 && flag){
+          //if (index == -1 && flag){
             $.getJSON(urlDetail, function( path ) {
               marker
                   .closePopup()
@@ -304,14 +304,14 @@ function newPath(origin, difficulty, external_id, title, route_type, route_lengt
               addSinglePathDetail(path);
               routes[newLine._leaflet_id] = external_id;
             });
-          }
+          //}
         })
         .on('mouseout', function(e){
+            clearRoutes();
+            marker.closePopup();
           if (index == -1 && flag){
-              clearRoutes();
-              marker.closePopup();
+            flag = true;
           }
-          flag = true;
         })
         .on('click', function(e){
             toogleFixedRoute(external_id, marker);
@@ -451,16 +451,26 @@ function addSinglePathDetail(data) {
     route_downhill.append(arrow_down);
     route_downhill.append($("<span>"+data.route_downhill+"m</span>"));
 
+    var isLoop = "No";
+    if (data.route_loop){
+      isLoop = "Sí";
+    }
+    var route_loop = '<span class="info-item"><i class="fa fa-rotate-left" aria-hidden="true">&nbsp;</i>'+isLoop+'</span>';
+
     $('#sidebar')
         .find('#route-detail')
         .find('.path_size')
         .empty()
+        .append('<span title="distancia" class="info-item">'+data.route_length+'km</span>')
         .append(route_uphill)
-        .append(route_downhill);
-    $('#sidebar')
-        .find('#route-detail')
-        .find('.path_time')
-        .html(data.time);
+        .append(route_downhill)
+        .append(route_loop);
+    if (data.time) {
+      $('#sidebar')
+          .find('#route-detail')
+          .find('.path_time')
+          .html(data.time);
+    }
     $('#sidebar')
         .find('#route-detail')
         .find('.last_update')
