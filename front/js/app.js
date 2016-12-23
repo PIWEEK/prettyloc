@@ -14,6 +14,7 @@ routes_list = {};
 markersLayer = null;
 routesLayer = null;
 fixedRoutes = [];
+clusterLayer = null;
 
 difficultValues = {
     '1': {
@@ -40,7 +41,7 @@ difficultValues = {
 
 $(document).ready(function() {
 
-    var outdoors = title('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw',
+    var outdoors = title('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoieWFtaWxhIiwiYSI6IjUzNDE5ZDRkZjBiZjBiZDY0YTBhZjBmNmUyZGYzYTZiIn0.okLJEzGsBQ6IOgn1mhToIQ',
                          'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
 			             '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
 			             'Imagery © <a href="http://mapbox.com">Mapbox</a>',
@@ -96,6 +97,12 @@ $(document).ready(function() {
     routesLayer = new L.FeatureGroup();
     map.addLayer(routesLayer);
 
+    clusterLayer = L.markerClusterGroup({
+        showCoverageOnHover: false,
+        removeOutsideVisibleBounds: true
+    });
+    map.addLayer(clusterLayer);
+
     initializeSearch();
 
     searchRoutes();
@@ -104,18 +111,21 @@ $(document).ready(function() {
 
 function searchRoutes(){
   // Clear old markers
-  var oldMarkersLayer = markersLayer;
-  if (oldMarkersLayer != null){
+  var oldClusterLayer = clusterLayer;
+  if (oldClusterLayer != null){
     //Delete old markers one second from now, to avoid blink
-    setTimeout(function(){map.removeLayer(oldMarkersLayer)}, 1000);
+    setTimeout(function(){map.removeLayer(oldClusterLayer)}, 2000);
   }
   markers = {};
   routes_list = {};
   lastIcon = null;
   lastMarker = null;
 
-  markersLayer = new L.FeatureGroup();
-  map.addLayer(markersLayer);
+  clusterLayer = L.markerClusterGroup({
+        showCoverageOnHover: false,
+        removeOutsideVisibleBounds: true
+  });
+  map.addLayer(clusterLayer);
 
   $(".route-title").remove();
 
@@ -306,7 +316,7 @@ function newPath(origin, difficulty, external_id, title, route_type, route_lengt
         .on('click', function(e){
             toogleFixedRoute(external_id, marker);
         })
-        .addTo(markersLayer);
+        .addTo(clusterLayer);
 
     markers[external_id] = marker;
 }
