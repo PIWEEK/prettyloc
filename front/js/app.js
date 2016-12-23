@@ -1,3 +1,6 @@
+api_url = 'http://localhost:8008/api/routes/?';
+//api_url = "http://prettyloc.es/api/routes/?";
+
 flag = true;
 newLine2 = {};
 
@@ -116,7 +119,7 @@ function searchRoutes(){
 
   $(".route-title").remove();
 
-  var url = "http://prettyloc.es/api/routes/?"
+  var url = api_url;
   url +=  getUrlParamRouteLoop();
   url += getUrlParamRouteType();
   url += getUrlParamRouteMinDist();

@@ -3,8 +3,8 @@ services:
     prettyloc_api:
         image: prettyloc_api:1.0
         container_name: prettyloc_api
-        #ports:
-        #    - "8008:8008"
+        ports:
+            - "8008:8008"
         environment:
             - "PRETTYLOC_API_USER=postgres"
             - "PRETTYLOC_API_HOST=prettyloc_postgres"
