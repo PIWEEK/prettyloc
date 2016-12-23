@@ -14,6 +14,7 @@ routes_list = {};
 markersLayer = null;
 routesLayer = null;
 fixedRoutes = [];
+clusterLayer = null;
 
 difficultValues = {
     '1': {
@@ -96,6 +97,12 @@ $(document).ready(function() {
     routesLayer = new L.FeatureGroup();
     map.addLayer(routesLayer);
 
+    clusterLayer = L.markerClusterGroup({
+        showCoverageOnHover: false,
+        removeOutsideVisibleBounds: true
+    });
+    map.addLayer(clusterLayer);
+
     initializeSearch();
 
     searchRoutes();
@@ -104,18 +111,21 @@ $(document).ready(function() {
 
 function searchRoutes(){
   // Clear old markers
-  var oldMarkersLayer = markersLayer;
-  if (oldMarkersLayer != null){
+  var oldClusterLayer = clusterLayer;
+  if (oldClusterLayer != null){
     //Delete old markers one second from now, to avoid blink
-    setTimeout(function(){map.removeLayer(oldMarkersLayer)}, 1000);
+    setTimeout(function(){map.removeLayer(oldClusterLayer)}, 2000);
   }
   markers = {};
   routes_list = {};
   lastIcon = null;
   lastMarker = null;
 
-  markersLayer = new L.FeatureGroup();
-  map.addLayer(markersLayer);
+  clusterLayer = L.markerClusterGroup({
+      showCoverageOnHover: false,
+      removeOutsideVisibleBounds: true
+  });
+  map.addLayer(clusterLayer);
 
   $(".route-title").remove();
 
@@ -309,7 +319,7 @@ function newPath(origin, difficulty, external_id, title, route_type, route_lengt
         .on('click', function(e){
             toogleFixedRoute(external_id, marker);
         })
-        .addTo(markersLayer);
+        .addTo(clusterLayer);
 
     markers[external_id] = marker;
 }
