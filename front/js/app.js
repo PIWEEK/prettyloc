@@ -6,9 +6,12 @@ lastBounding = null;
 
 map = null;
 markers = {};
+routes = {};
 routes_list = {};
 markersLayer = null;
 routesLayer = null;
+fixedRoutes = [];
+
 difficultValues = {
     '1': {
         name: 'easy',
@@ -262,11 +265,21 @@ function toggleLine(routes) {
 
 function newPath(origin, difficulty, external_id, title, route_type, route_length, route_uphill, route_downhill, urlDetail, route_loop) {
     var newLine;
+    var iconMarker;
 
-    var iconMarker = L.AwesomeMarkers.icon({
+    if (fixedRoutes.indexOf(external_id) == -1){
+      iconMarker = L.AwesomeMarkers.icon({
         icon: 'map-marker',
         markerColor: difficultValues[difficulty].color
       });
+    } else {
+     iconMarker = L.AwesomeMarkers.icon({
+        icon: 'flag',
+        markerColor: difficultValues[difficulty].color,
+        prefix: 'fa',
+        iconColor: 'white'
+      });
+    }
 
     var popupInfo = '<div class="popup_box">';
     popupInfo += '<div class="popup_head"><div class="path_type '+difficultValues[difficulty].color+'">'+ groupActivities(route_type) +'</div>';
@@ -294,6 +307,7 @@ function newPath(origin, difficulty, external_id, title, route_type, route_lengt
               if (flag) {
                 newLine = line(path.line);
                 addSinglePathDetail(path);
+                routes[newLine._leaflet_id] = external_id;
               }
             });
 
@@ -303,6 +317,9 @@ function newPath(origin, difficulty, external_id, title, route_type, route_lengt
                 clearRoutes();
                 marker.closePopup();
             }
+        })
+        .on('click', function(e){
+            toogleFixedRoute(external_id, marker);
         })
         .addTo(markersLayer);
 
@@ -317,7 +334,10 @@ function newPath(origin, difficulty, external_id, title, route_type, route_lengt
 
 function clearRoutes(){
   routesLayer.eachLayer(function (layer) {
-      routesLayer.removeLayer(layer);
+      index = fixedRoutes.indexOf(routes[layer._leaflet_id]);
+      if (index == -1){
+        routesLayer.removeLayer(layer);
+      }
   });
 }
 
@@ -421,13 +441,13 @@ function addSinglePathDetail(data) {
     $('#sidebar')
         .find('#route-detail')
         .find('.path_type_text')
-        .html('Path type: '+ data.route_type);        
+        .html('Path type: '+ data.route_type);
     $('#sidebar')
         .find('#route-detail')
         .find('.path_difficulty')
         .html('Technical difficulty: ' + difficultValues[data.technical_difficulty].name);
- 
-    
+
+
 
     var route_uphill = $("<span title='Elevation gain uphill'>")
     route_uphill.addClass("info-item")
@@ -440,7 +460,7 @@ function addSinglePathDetail(data) {
     var arrow_down = $('<i class="fa fa-arrow-circle-down" aria-hidden="true">&nbsp;</i>');
     route_downhill.append(arrow_down);
     route_downhill.append($("<span>"+data.route_downhill+"m</span>"));
-    
+
     $('#sidebar')
         .find('#route-detail')
         .find('.path_size')
@@ -454,7 +474,7 @@ function addSinglePathDetail(data) {
     $('#sidebar')
         .find('#route-detail')
         .find('.last_update')
-        .html('Last updated: '+data.upload_date);        
+        .html('Last updated: '+data.upload_date);
 
     for (var i=0;i<(data.stars-1);i++) {
         $('#sidebar')
@@ -515,4 +535,25 @@ function getUrlParamUphill(){
 function getUrlParamBoundBox(){
   lastBounding = map.getBounds();
   return "in_bbox="+lastBounding._southWest.lat+","+lastBounding._southWest.lng+","+lastBounding._northEast.lat+","+lastBounding._northEast.lng+"&";
+}
+
+function toogleFixedRoute(external_id, marker){
+  console.log("toogleFixedRoute "+external_id);
+  index = fixedRoutes.indexOf(external_id);
+  if (index == -1){
+    fixedRoutes.push(external_id);
+    marker.setIcon(L.AwesomeMarkers.icon({
+      icon: 'flag',
+      markerColor: marker.options.icon.options.markerColor,
+      prefix: 'fa',
+      iconColor: 'white'
+    }));
+  } else {
+    fixedRoutes.splice(index, 1);
+    marker.setIcon(L.AwesomeMarkers.icon({
+        icon: 'map-marker',
+        markerColor: marker.options.icon.options.markerColor,
+      }));
+    clearRoutes();
+  }
 }
