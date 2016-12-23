@@ -248,24 +248,6 @@ function line(data) {
 	return L.geoJSON(data).addTo(routesLayer);
 }
 
-function toggleLine(routes) {
-    var popup = '';
-
-    /*if (flag) {
-        popup = $('<a class="popup_link">show route</a>').click(function(e) {
-            newLine2 = line(routes, map);
-            flag = false;
-        })[0];
-    } else {
-        popup = $('<a class="popup_link">hide route</a>').click(function(e) {
-            map.removeLayer(newLine2);
-            flag = true;
-        })[0];
-    }*/
-
-    return popup;
-}
-
 function newPath(origin, difficulty, external_id, title, route_type, route_length, route_uphill, route_downhill, urlDetail, route_loop) {
     var newLine;
     var iconMarker;
@@ -293,33 +275,33 @@ function newPath(origin, difficulty, external_id, title, route_type, route_lengt
     popupInfo += '<span class="info-item"><i class="fa fa-arrow-circle-down" aria-hidden="true">&nbsp;</i>'+route_downhill+'m</span>';
     var isLoop = "No";
     if (route_loop){
-      isLoop = "Yes";
+      isLoop = "Sí";
     }
     popupInfo += '<span class="info-item"><i class="fa fa-rotate-left" aria-hidden="true">&nbsp;</i>'+isLoop+'</span>';
     popupInfo += '</div>';
     popupInfo += '</div>';
 
+    index = fixedRoutes.indexOf(external_id);
     var marker = L.marker(origin, {icon: iconMarker})
         .on('mouseover', function() {
-
+          if (index == -1 && flag){
             $.getJSON(urlDetail, function( path ) {
-                marker
+              marker
                   .closePopup()
                   .bindPopup(popupInfo)
                   .openPopup();
-              if (flag) {
-                newLine = line(path.line);
-                addSinglePathDetail(path);
-                routes[newLine._leaflet_id] = external_id;
-              }
+              newLine = line(path.line);
+              addSinglePathDetail(path);
+              routes[newLine._leaflet_id] = external_id;
             });
-
+          }
         })
         .on('mouseout', function(e){
-            if (flag) {
-                clearRoutes();
-                marker.closePopup();
-            }
+          if (index == -1 && flag){
+              clearRoutes();
+              marker.closePopup();
+          }
+          flag = true;
         })
         .on('click', function(e){
             toogleFixedRoute(external_id, marker);
@@ -327,20 +309,14 @@ function newPath(origin, difficulty, external_id, title, route_type, route_lengt
         .addTo(markersLayer);
 
     markers[external_id] = marker;
-
-/*    $('#map').on('click', '.popup_link',function() {
-        if (marker._popup) {
-            marker._popup.setContent(toggleLine(path));
-        }
-    });*/
 }
 
 function clearRoutes(){
   routesLayer.eachLayer(function (layer) {
-      index = fixedRoutes.indexOf(routes[layer._leaflet_id]);
-      if (index == -1){
-        routesLayer.removeLayer(layer);
-      }
+    index = fixedRoutes.indexOf(routes[layer._leaflet_id]);
+    if (index == -1){
+      routesLayer.removeLayer(layer);
+    }
   });
 }
 
@@ -386,13 +362,13 @@ function addDetail(data) {
     route_length.addClass("info-item")
     route_length.text(data.route_length+"km");
 
-    var route_uphill = $("<span title='Elevation gain uphill'>")
+    var route_uphill = $("<span title='Elevación del terreno'>")
     route_uphill.addClass("info-item")
     var arrow_up = $('<i class="fa fa-arrow-circle-up" aria-hidden="true">&nbsp;</i>');
     route_uphill.append(arrow_up);
     route_uphill.append($("<span>"+data.route_uphill+"m</span>"));
 
-    var route_downhill = $("<span title='Elevation gain downhill'>")
+    var route_downhill = $("<span title='Descenso del terreno'>")
     route_downhill.addClass("info-item")
     var arrow_down = $('<i class="fa fa-arrow-circle-down" aria-hidden="true">&nbsp;</i>');
     route_downhill.append(arrow_down);
@@ -403,7 +379,8 @@ function addDetail(data) {
       isLoop = "Yes";
     }
 
-    var route_loop = $('<span class="info-item"><i class="fa fa-rotate-left" aria-hidden="true">&nbsp;</i>'+isLoop+'</span>');
+    var loop_text = isLoop ? 'Sí' : 'No';
+    var route_loop = $('<span class="info-item"><i class="fa fa-rotate-left" aria-hidden="true">&nbsp;</i>'+ loop_text +'</span>');
 
     info.append(route_length);
     info.append(route_uphill);
@@ -444,21 +421,21 @@ function addSinglePathDetail(data) {
     $('#sidebar')
         .find('#route-detail')
         .find('.path_type_text')
-        .html('Path type: '+ data.route_type);
+        .html('Tipo de ruta: '+ data.route_type);
     $('#sidebar')
         .find('#route-detail')
         .find('.path_difficulty')
-        .html('Technical difficulty: ' + difficultValues[data.technical_difficulty].name);
+        .html('Dificultad técnica: ' + difficultValues[data.technical_difficulty].name);
 
 
 
-    var route_uphill = $("<span title='Elevation gain uphill'>")
+    var route_uphill = $("<span title='Elevación del terreno'>")
     route_uphill.addClass("info-item")
     var arrow_up = $('<i class="fa fa-arrow-circle-up" aria-hidden="true">&nbsp;</i>');
     route_uphill.append(arrow_up);
     route_uphill.append($("<span>"+data.route_uphill+"m</span>"));
 
-    var route_downhill = $("<span title='Elevation gain downhill'>")
+    var route_downhill = $("<span title='Descenso del terreno'>")
     route_downhill.addClass("info-item")
     var arrow_down = $('<i class="fa fa-arrow-circle-down" aria-hidden="true">&nbsp;</i>');
     route_downhill.append(arrow_down);
@@ -477,7 +454,7 @@ function addSinglePathDetail(data) {
     $('#sidebar')
         .find('#route-detail')
         .find('.last_update')
-        .html('Last updated: '+data.upload_date);
+        .html('Última actualización: '+data.upload_date);
 
     for (var i=0;i<(data.stars-1);i++) {
         $('#sidebar')
@@ -541,7 +518,6 @@ function getUrlParamBoundBox(){
 }
 
 function toogleFixedRoute(external_id, marker){
-  console.log("toogleFixedRoute "+external_id);
   index = fixedRoutes.indexOf(external_id);
   if (index == -1){
     fixedRoutes.push(external_id);
@@ -558,5 +534,6 @@ function toogleFixedRoute(external_id, marker){
         markerColor: marker.options.icon.options.markerColor,
       }));
     clearRoutes();
+    flag = false;
   }
 }
