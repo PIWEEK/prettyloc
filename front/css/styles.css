@@ -71,17 +71,6 @@ h2 {
   text-decoration: underline;
 }
 
-.outdoors{
-    background-size: cover;
-    background-image: url('https://api.mapbox.com/v4/mapbox.outdoors/auto/240x120.png?access_token=tk.eyJ1IjoieWFtaWxhIiwiZXhwIjoxNDgyMjc4MjAzLCJpYXQiOjE0ODIyNzQ2MDIsInNjb3BlcyI6WyJtYXA6cmVhZCIsIm1hcDp3cml0ZSIsInVzZXI6cmVhZCIsImRhdGFzZXRzOnJlYWQiLCJkYXRhc2V0czp3cml0ZSJdLCJjbGllbnQiOiJtYXBib3guY29tIiwibGwiOjE0ODIyNDI4MDQwMjEsIml1IjpudWxsfQ.5w3NgkiIRX1tdLJWZ38gPg');
-}
-
-.topomap{
-    background-size: cover;
-    background-image: url('https://c.tile.opentopomap.org/12/2004/1538.png');
-}
-
-
 .leaflet-control-geosearch {
   display:none;
 }
