@@ -1,5 +1,5 @@
-//api_url = 'http://localhost:8008/api/routes/?';
-api_url = "http://prettyloc.es/api/routes/?";
+api_url = 'http://localhost:8008/api/routes/?';
+//api_url = "http://prettyloc.es/api/routes/?";
 
 flag = true;
 newLine2 = {};
@@ -415,6 +415,10 @@ function addDetail(data) {
       lastMarker = marker;
       //map.setView(marker.getLatLng());
       marker.fire('mouseover');
+    });
+
+    route.on('click',function (e) {
+      $("#a-route-detail i").click();
     });
 
     $('#sidebar').find('#search-results').append(route);
