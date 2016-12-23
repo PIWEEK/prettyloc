@@ -8,6 +8,7 @@ map = null;
 markers = {};
 routes_list = {};
 markersLayer = null;
+routesLayer = null;
 difficultValues = {
     '1': {
         name: 'easy',
@@ -85,6 +86,9 @@ $(document).ready(function() {
     L.control.layers(baseMaps, null, {position: 'topright'}).addTo(map);
 
     var sidebar = L.control.sidebar('sidebar').addTo(map);
+
+    routesLayer = new L.FeatureGroup();
+    map.addLayer(routesLayer);
 
     initializeSearch();
 
@@ -235,7 +239,7 @@ function title(url, attribution, id) {
 }
 
 function line(data) {
-	return L.geoJSON(data).addTo(map);
+	return L.geoJSON(data).addTo(routesLayer);
 }
 
 function toggleLine(routes) {
@@ -296,7 +300,7 @@ function newPath(origin, difficulty, external_id, title, route_type, route_lengt
         })
         .on('mouseout', function(e){
             if (flag) {
-                map.removeLayer(newLine);
+                clearRoutes();
                 marker.closePopup();
             }
         })
@@ -309,6 +313,12 @@ function newPath(origin, difficulty, external_id, title, route_type, route_lengt
             marker._popup.setContent(toggleLine(path));
         }
     });*/
+}
+
+function clearRoutes(){
+  routesLayer.eachLayer(function (layer) {
+      routesLayer.removeLayer(layer);
+  });
 }
 
 function groupActivities(activity){
@@ -452,7 +462,7 @@ function addSinglePathDetail(data) {
             .find('.path_stars')
             .find('.star:nth('+i+')')
             .addClass('star3');
-    }  
+    }
 }
 
 var debug;
